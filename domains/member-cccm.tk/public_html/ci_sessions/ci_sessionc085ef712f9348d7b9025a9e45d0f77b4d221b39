@@ -1,0 +1,5 @@
+__ci_last_regenerate|i:1488873080;admin_ID|s:1:"1";admin_Username|s:10:"itshibarho";admin_Name|s:30:"วิชชาบูรณ์";admin_Lastname|s:27:"บูรณเขตต์";admin_Picture|s:24:"2017-03-05_01_32_51.jpeg";is_login|b:1;msg|s:432:"
+                                <div class="alert alert-success alert-dismissible fade in" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    <strong>บันทึก</strong>ข้อมูลเรียบร้อยแล้ว!!!
+                                </div>";__ci_vars|a:1:{s:3:"msg";s:3:"old";}
