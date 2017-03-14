@@ -6,6 +6,7 @@ class Project_model extends CI_Model {
         parent::__construct();
         $this->load->database('default');
     }
+    
 
     public function insert($table, $value) {
         return $this->db->insert($table, $value);
@@ -182,7 +183,7 @@ class Project_model extends CI_Model {
     public function get_data_portfolio() {
         $this->db->select('*');
         $this->db->from('tbl_portfolio');
-        $this->db->order_by("portfolio_Status", "asc");
+        //$this->db->order_by("portfolio_Status", "asc");
         $this->db->order_by("portfolio_ID", "DESC");
         return $this->db->get()->result_array();
     }
@@ -224,13 +225,22 @@ class Project_model extends CI_Model {
     public function get_data_slider() {
         $this->db->select('*');
         $this->db->from('tbl_slider');
+         $this->db->order_by("slider_Number","ASC");
         return $this->db->get()->result_array();
     }
+    
 
     public function get_slider_byID($ID) {
         $this->db->select('*');
         $this->db->from('tbl_slider');
         $this->db->where("tbl_slider.slider_ID = " . $ID);
+
+        return $this->db->get()->result_array();
+    }
+      public function get_price_byID($ID) {
+        $this->db->select('*');
+        $this->db->from('tbl_price');
+        $this->db->where("tbl_price.price_ID = " . $ID);
 
         return $this->db->get()->result_array();
     }
@@ -486,7 +496,26 @@ class Project_model extends CI_Model {
 
         return $this->db->get()->result_array();
     }
-     public function get_offers($ID) {
+
+     public function get_treatment($ID) {
+        $this->db->select('*');
+        $this->db->from('tbl_treatment');
+        $this->db->where("tbl_treatment.id = " . $ID);
+
+        return $this->db->get()->result_array();
+    }
+      public function get_data_price() {
+        $this->db->select('*');
+        $this->db->from('tbl_price');
+         $this->db->order_by('price_ID','DESC');
+        //$this->db->where("tbl_price.price_ID = " . $ID);
+        
+
+        return $this->db->get()->result_array();
+    }
+    
+
+    public function get_offers($ID) {
         $this->db->select('*');
         $this->db->from('tbl_offers');
         $this->db->where("tbl_offers.id = " . $ID);
@@ -494,5 +523,35 @@ class Project_model extends CI_Model {
         return $this->db->get()->result_array();
     }
     
+    public function get_detail_photo($ID) {
+        $this->db->select('*');
+        $this->db->from('tbl_detail_gallery');
+        $this->db->where("tbl_detail_gallery.id = " . $ID);
+
+        return $this->db->get()->result_array();
+    }
+
+    public function get_news($ID) {
+        $this->db->select('*');
+        $this->db->from('tbl_news');
+        $this->db->where("tbl_news.id = " . $ID);
+
+        return $this->db->get()->result_array();
+    }
+     public function get_home($ID) {
+        $this->db->select('*');
+        $this->db->from('tbl_home');
+        $this->db->where("tbl_home.id = " . $ID);
+
+        return $this->db->get()->result_array();
+    }
+      public function get_contact($ID) {
+        $this->db->select('*');
+        $this->db->from('tbl_contact');
+        $this->db->where("tbl_contact.id = " . $ID);
+
+        return $this->db->get()->result_array();
+    }
+ 
 
 }

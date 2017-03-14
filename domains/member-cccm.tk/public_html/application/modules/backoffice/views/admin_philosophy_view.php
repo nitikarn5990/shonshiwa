@@ -358,23 +358,58 @@
 
            
  </div>-->
+<?php
+if ($id == 1) {
+    $title = 'Shon-Shiwa Experience';
+}
+if ($id == 2) {
+     $title = 'Terms & Conditions';
+}
+?>
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
-            <h2>จัดการ Our Philosophy</h2>
+            <h2>จัดการ <?=$title?></h2>
 
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
             <?php echo $this->session->flashdata('msg'); ?>
             <br />
-            <form class="form-horizontal form-label-left" id="tinyMCEForm"  onsubmit="return detailValidate()" method="post"  action="<?= base_url()?>backoffice/Admin/edit_philosophy" enctype="multipart/form-data">
+            <form class="form-horizontal form-label-left" id="tinyMCEForm"  onsubmit="return detailValidate()" method="post"  action="<?= base_url() ?>backoffice/Admin/edit_philosophy" enctype="multipart/form-data">
 
+                <input type="hidden" name="id" value="<?=$id?>">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">รายละเอียด Out Philosophy <span class="required">*</span>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">หัวข้อ (Eng) <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <textarea class="form-control tinymce" rows="3" name="philosophy_detail" id="philosophy_detail" placeholder="กรุณากรอกข้อมูล" ><?=$data_philosophy[0]['philosophy_detail']?></textarea>
+                        <input type="text" class="form-control" required=""  name="philosophy_title[en]" id="" placeholder="กรุณากรอกข้อมูล" value="<?php $data1 = unserialize($data_philosophy[0]['philosophy_title']);
+            echo $data1['en'] ?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">หัวข้อ (Netherland) <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" class="form-control" required=""  name="philosophy_title[nl]" id="" placeholder="กรุณากรอกข้อมูล" value="<?php $data2 = unserialize($data_philosophy[0]['philosophy_title']);
+            echo $data2['nl'] ?>">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">รายละเอียด <?=$title?> (Eng) <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <textarea class="form-control tinymce" rows="3" name="philosophy_detail[en]" id="philosophy_detail1" placeholder="กรุณากรอกข้อมูล" ><?php $data3 = unserialize($data_philosophy[0]['philosophy_detail']);
+            echo $data3['en'] ?></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">รายละเอียด <?=$title?> (Netherland) <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <textarea class="form-control tinymce" rows="3" name="philosophy_detail[nl]" id="philosophy_detail2" placeholder="กรุณากรอกข้อมูล" ><?php $data4 = unserialize($data_philosophy[0]['philosophy_detail']);
+            echo $data4['nl'] ?></textarea>
                     </div>
                 </div>
 
@@ -384,7 +419,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                         <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i> แก้ไข</button>
                         <button type="submit" class="btn btn-file">Cancel</button>
-                      
+
                     </div>
                 </div>
 

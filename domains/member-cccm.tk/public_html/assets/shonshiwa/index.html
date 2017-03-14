@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Shon Shiwa Wellness</title>
+<meta name="description" content="Shon Shiwa Wellness" />
+<meta name="keywords" content="Shon Shiwa Wellness" />
+<link rel="shortcut icon" href="images/icon.png">
+<link href="style.css" rel="stylesheet" type="text/css" />
+	<!--starslide!-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	<script src="dist/slippry.min.js"></script>
+	<script src="//use.edgefonts.net/cabin;source-sans-pro:n2,i2,n3,n4,n6,n7,n9.js"></script>
+	<meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="slide.css">
+    <link rel="stylesheet" href="dist/slippry.css">
+    <!--end slide!-->
+</head>
+<body>
+<div id="logo-language">
+	<div id="logo"><img src="images/logo.png" width="193" height="164" /></div>
+    <div id="language">Main pag  |  <a href="">Contact us</a><label class="language"><img src="images/netherlands.jpg" width="27" height="21" /> <img src="images/eng.jpg" width="27" height="21" /></label></div>
+</div>
+<div id="nav">
+	<ul>
+        	<li><a href="">Home</a></li>
+            <li><a href="">Our Philosophy</a></li>
+            <li><a href="">Treatments</a></li>
+            <li><a href="">Special Offers</a></li>
+            <li><a href="">Gallery</a></li>
+            <li><a href="">News & Event</a></li>
+        </ul>
+</div>
+<div id="slide">
+	<div id="sizeslide">
+	<article class="demo_block">
+				<ul id="demo1" style="list-style:none; position:0; margin:0;">
+					<li><a href="#slide1"><img src="img/slide.jpg" ></a></li>
+					<li><a href="#slide2"><img src="img/slide.jpg" ></a></li>
+                    <li><a href="#slide2"><img src="img/slide.jpg" ></a></li>
+				</ul>
+			</article>
+		<script>
+			$(function() {
+				var demo1 = $("#demo1").slippry({
+					transition: 'fade',
+					useCSS: true,
+					speed: 1000,
+					pause: 3000,
+					auto: true,
+					preload: 'visible'
+				});
+
+				$('.stop').click(function () {
+					demo1.stopAuto();
+				});
+
+				$('.start').click(function () {
+					demo1.startAuto();
+				});
+
+				$('.prev').click(function () {
+					demo1.goToPrevSlide();
+					return false;
+				});
+				$('.next').click(function () {
+					demo1.goToNextSlide();
+					return false;
+				});
+				$('.reset').click(function () {
+					demo1.destroySlider();
+					return false;
+				});
+				$('.reload').click(function () {
+					demo1.reloadSlider();
+					return false;
+				});
+				$('.init').click(function () {
+					demo1 = $("#demo1").slippry();
+					return false;
+				});
+			});
+		</script>
+        </div>
+</div>
+<div id="content">
+	<div class="sidebar">
+    	<div class="boxtxt"><img src="images/imgbook.jpg" width="334" height="154" /></div>
+    </div>
+    <div class="txtcontent">
+    	<h1>Welcome</h1>
+    	<p>Welcome to Shon–Shiwa Wellenss- the first Organic &amp; Authentic Thai Wellness in <br />
+   	    Etten-Leur and North Brabant.</p>
+    	<p><a href="">***Enjoy 10% Off Introductory Authentic Thai Massage (60/90 mins), Thai Herbal <br />
+    	  Compress Massage or Aroma Hot Oil Massage!!!***</a></p>
+    	<p>A Glimpse of Authentic Thai Massage<br />
+  	  </p>
+    </div>
+</div>
+<div id="footer">
+	<div class="line"></div>
+	<p>Copyright © 2017 Shon Shiwa Wellness. All Rights Reserved.</p>
+</div>
+</body>
+</html>

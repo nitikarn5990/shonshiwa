@@ -112,8 +112,8 @@ class Admin extends MX_Controller {
             'data' => $data
         ));
 
-//        redirect(site_url('backoffice/Admin/product_birthday/' . $_POST['name']), 'refresh')
-        //  redirect(base_url() . 'backoffice/Admin/product_birthday/');
+//        redirect(site_url('backoffice/admin/product_birthday/' . $_POST['name']))
+        //  redirect(base_url() . 'backoffice/admin/product_birthday/');
     }
 
     public function set_session($data) {
@@ -302,10 +302,16 @@ class Admin extends MX_Controller {
 
 
 
-            redirect('backoffice/Admin/slider');
+            redirect('backoffice/admin/home');
         } else {
-            redirect('backoffice/Admin/login_admin');
+            $this->set_alert('error', 'ไม่สามารถเข้าสู่ระบบได้');
+            redirect('backoffice/admin/login_admin');
         }
+    }
+
+    public function template1() {
+        //$content["content"] = $this->load->view("admin_report_list_view", $this->data_order(), TRUE);
+        $this->load->view("tamplate1_view", '');
     }
 
     public function check_login() {
@@ -317,8 +323,10 @@ class Admin extends MX_Controller {
     }
 
     public function login_admin() {
+
+        echo 'ss';
         if ($this->session->userdata('is_login') == true) {
-            redirect('backoffice/Admin/report_list');
+            redirect('backoffice/admin/report_list');
         } else {
             $this->load->view("admin_login_view");
         }
@@ -330,7 +338,7 @@ class Admin extends MX_Controller {
             $content["content"] = $this->load->view("admin_report_list_view", $this->data_order(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -359,7 +367,7 @@ class Admin extends MX_Controller {
             $content["content"] = $this->load->view("admin_product_type_view", $this->get_data_product_type(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -394,14 +402,14 @@ class Admin extends MX_Controller {
 
         if ($this->db->get_where('tbl_product_type', array('product_type_Name =' => $data['product_type_Name']))->num_rows() > 0) {
             $this->set_alert('duplicate');
-            redirect('backoffice/Admin/product_type');
+            redirect('backoffice/admin/product_type');
         } else {
             if ($this->Project_model->insert("tbl_product_type", $data)) {
                 $this->set_alert('insert');
-                redirect('backoffice/Admin/product_type');
+                redirect('backoffice/admin/product_type');
             } else {
                 $this->set_alert('duplicate');
-                redirect('backoffice/Admin/product_type');
+                redirect('backoffice/admin/product_type');
             }
         }
     }
@@ -428,7 +436,7 @@ class Admin extends MX_Controller {
             if ($this->Project_model->update("tbl_product_type", $data, $where) == 1) {
                 $msg['status'] = TRUE;
                 $this->set_alert('str_type_true');
-                redirect('backoffice/Admin/product_type/');
+                redirect('backoffice/admin/product_type/');
             } else {
                 $msg['status'] = FALSE;
             }
@@ -436,7 +444,7 @@ class Admin extends MX_Controller {
             echo json_encode($msg);
         } else {
             $this->set_alert('str_type_FALSE');
-            redirect('backoffice/Admin/product_type/');
+            redirect('backoffice/admin/product_type/');
         }
     }
 
@@ -450,7 +458,7 @@ class Admin extends MX_Controller {
         if ($this->Project_model->update("tbl_product_type", $data, $where) == 1) {
             $msg['status'] = TRUE;
             $this->set_alert('update');
-            redirect('backoffice/Admin/product_type/');
+            redirect('backoffice/admin/product_type/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -464,7 +472,7 @@ class Admin extends MX_Controller {
         );
         if ($this->Project_model->delete("tbl_product_type", $where) == 1) {
             $this->set_alert('delete');
-            redirect('backoffice/Admin/product_type/');
+            redirect('backoffice/admin/product_type/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -505,7 +513,7 @@ class Admin extends MX_Controller {
             $content["content"] = $this->load->view("admin_product_group_view", $this->get_data_product_group(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -548,7 +556,7 @@ class Admin extends MX_Controller {
             if ($this->Project_model->update("tbl_product_group", $data, $where) == 1) {
                 $msg['status'] = TRUE;
                 $this->set_alert('str_group_true');
-                redirect('backoffice/Admin/product_group/');
+                redirect('backoffice/admin/product_group/');
             } else {
                 $msg['status'] = FALSE;
             }
@@ -556,7 +564,7 @@ class Admin extends MX_Controller {
             echo json_encode($msg);
         } else {
             $this->set_alert('str_group_FALSE');
-            redirect('backoffice/Admin/product_group/');
+            redirect('backoffice/admin/product_group/');
         }
     }
 
@@ -568,14 +576,14 @@ class Admin extends MX_Controller {
         );
         if ($this->db->get_where('tbl_product_group', array('product_group_Name =' => $data['product_group_Name']))->num_rows() > 0) {
             $this->set_alert('duplicate');
-            redirect('backoffice/Admin/product_group');
+            redirect('backoffice/admin/product_group');
         } else {
             if ($this->Project_model->insert("tbl_product_group", $data)) {
                 $this->set_alert('insert');
-                redirect('backoffice/Admin/product_group');
+                redirect('backoffice/admin/product_group');
             } else {
                 $this->set_alert('duplicate');
-                redirect('backoffice/Admin/product_group');
+                redirect('backoffice/admin/product_group');
             }
         }
     }
@@ -599,7 +607,7 @@ class Admin extends MX_Controller {
         if ($this->Project_model->update("tbl_product_group", $data, $where) == 1) {
             $msg['status'] = TRUE;
             $this->set_alert('update');
-            redirect('backoffice/Admin/product_group/');
+            redirect('backoffice/admin/product_group/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -613,7 +621,7 @@ class Admin extends MX_Controller {
         if ($this->Project_model->delete("tbl_product_group", $where) == 1) {
             $msg['status'] = TRUE;
             $this->set_alert('delete');
-            redirect('backoffice/Admin/product_group/');
+            redirect('backoffice/admin/product_group/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -653,7 +661,7 @@ class Admin extends MX_Controller {
             $content["content"] = $this->load->view("admin_product_view", $this->get_data_product(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -672,7 +680,7 @@ class Admin extends MX_Controller {
 //        exit;
         if ($this->db->get_where('tbl_product', array('product_Name =' => $value['product_Name']))->num_rows() > 0) {
             $this->set_alert('duplicate');
-            redirect('backoffice/Admin/product');
+            redirect('backoffice/admin/product');
         } else {
             if ($this->Project_model->insert("tbl_product", $value)) {
                 $this->set_alert('insert');
@@ -763,7 +771,7 @@ class Admin extends MX_Controller {
                     if ($this->Project_model->update("tbl_product", $value3, $where) == 1) {
 //                    echo $p_id;
 //                    exit;
-                        redirect('backoffice/Admin/product');
+                        redirect('backoffice/admin/product');
                     }
                 } else {
                     $msg['status'] = FALSE;
@@ -809,8 +817,8 @@ class Admin extends MX_Controller {
 
     function delete_product() {
         if ($this->input->post("del_product_Picture_1") and $this->input->post("del_product_Picture_2") != "") {
-            unlink('assets/Photo_Product/' . $this->input->post("del_product_Picture_1"));
-            unlink('assets/Photo_Product/' . $this->input->post("del_product_Picture_2"));
+            @unlink('assets/Photo_Product/' . $this->input->post("del_product_Picture_1"));
+            @unlink('assets/Photo_Product/' . $this->input->post("del_product_Picture_2"));
         }
         $where = array(
             "product_ID" => $this->input->post("del_product_ID")
@@ -819,7 +827,7 @@ class Admin extends MX_Controller {
             if ($this->Project_model->delete("tbl_product_sap", $where) == 1) {
                 $msg['status'] = TRUE;
                 $this->set_alert('delete');
-                redirect('backoffice/Admin/product/');
+                redirect('backoffice/admin/product/');
             }
         } else {
             $msg['status'] = FALSE;
@@ -839,7 +847,7 @@ class Admin extends MX_Controller {
     }
 
     function edit_pic1() {
-        unlink('assets/Photo_Product/' . $this->input->post("name_pic1"));
+        @unlink('assets/Photo_Product/' . $this->input->post("name_pic1"));
         $name = $this->input->post("name_pic1");
 
         $type = explode('.', $_FILES["edit_product_Picture_11"]["name"]);
@@ -867,11 +875,11 @@ class Admin extends MX_Controller {
         if ($this->image_lib->resize()) {
             echo $this->image_lib->display_errors();
         }
-        redirect('backoffice/Admin/product/', 'refresh');
+        redirect('backoffice/admin/product/');
     }
 
     function edit_pic2() {
-        unlink('assets/Photo_Product/' . $this->input->post("name_pic2"));
+        @unlink('assets/Photo_Product/' . $this->input->post("name_pic2"));
         $name = $this->input->post("name_pic2");
 
         $type = explode('.', $_FILES["edit_product_Picture_2"]["name"]);
@@ -900,7 +908,7 @@ class Admin extends MX_Controller {
             echo $this->image_lib->display_errors();
         }
 
-        redirect('backoffice/Admin/product/', 'refresh');
+        redirect('backoffice/admin/product/');
     }
 
     function get_product_byID() {//ค้างค่าที่หน้าแก้ไข
@@ -922,7 +930,7 @@ class Admin extends MX_Controller {
         if ($this->Project_model->update("tbl_product", $data, $where) == 1) {
             $msg['status'] = TRUE;
             $this->set_alert('update');
-            redirect('backoffice/Admin/product/');
+            redirect('backoffice/admin/product/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -1040,7 +1048,7 @@ class Admin extends MX_Controller {
             $content["content"] = $this->load->view("admin_product_new_view", $this->data_product_new(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -1057,7 +1065,7 @@ class Admin extends MX_Controller {
             $content["content"] = $this->load->view("admin_product_recommend_view", $this->data_product_recommend(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -1075,7 +1083,7 @@ class Admin extends MX_Controller {
             $content["content"] = $this->load->view("admin_product_birthday_view", $this->data_product_birthday(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -1137,7 +1145,7 @@ class Admin extends MX_Controller {
             $content["content"] = $this->load->view("admin_promotion_view", $this->data_promotion(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -1201,7 +1209,7 @@ class Admin extends MX_Controller {
                 "promotion_Picture" => $filename,
             );
             if ($this->Project_model->update("tbl_promotion", $data_pic, $where) == 1) {
-                redirect('backoffice/Admin/promotion');
+                redirect('backoffice/admin/promotion');
 //                echo "111111111";
             } else {
                 $msg['status'] = FALSE;
@@ -1233,7 +1241,7 @@ class Admin extends MX_Controller {
         );
         if ($this->Project_model->update("tbl_promotion", $data, $where) == 1) {
             $msg['status'] = TRUE;
-            redirect('backoffice/Admin/promotion/');
+            redirect('backoffice/admin/promotion/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -1242,7 +1250,7 @@ class Admin extends MX_Controller {
     }
 
     function edit_pic_pmt() {
-        unlink('assets/pic_promotion/' . $this->input->post("promotion_Picture0"));
+        @unlink('assets/pic_promotion/' . $this->input->post("promotion_Picture0"));
         $name = $this->input->post("promotion_Picture0");
 
         $type = explode('.', $_FILES["promotion_Picture1"]["name"]);
@@ -1270,7 +1278,7 @@ class Admin extends MX_Controller {
         if ($this->image_lib->resize()) {
             echo $this->image_lib->display_errors();
         }
-        redirect('backoffice/Admin/promotion/', 'refresh');
+        redirect('backoffice/admin/promotion/');
     }
 
     function update_status_promotion() {
@@ -1287,7 +1295,7 @@ class Admin extends MX_Controller {
             "promotion_Status" => $stt
         );
         if ($this->Project_model->update("tbl_promotion", $data, $where) == 1) {
-            redirect('backoffice/Admin/promotion');
+            redirect('backoffice/admin/promotion');
         } else {
             $msg['status'] = FALSE;
         }
@@ -1300,7 +1308,7 @@ class Admin extends MX_Controller {
             "promotion_ID" => $this->input->post("promotion_ID2")
         );
         if ($this->Project_model->delete("tbl_promotion", $where) == 1) {
-            redirect('backoffice/Admin/promotion');
+            redirect('backoffice/admin/promotion');
         } else {
             $msg['status'] = FALSE;
         }
@@ -1309,12 +1317,14 @@ class Admin extends MX_Controller {
     }
 
 //ผลงาน
-    function portfolio() {
+    function gallery() {
         if ($this->check_login()) {
+
+
             $content["content"] = $this->load->view("admin_portfolio_view", $this->data_portfolio(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -1326,6 +1336,41 @@ class Admin extends MX_Controller {
     }
 
     function add_portfolio() {
+
+
+        $config['upload_path'] = 'assets/pic_portfolio/';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+        $config['encrypt_name'] = TRUE;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('portfolio_Picture')) {
+
+            $this->set_alert_array('error', $this->upload->display_errors());
+            redirect('backoffice/admin/gallery');
+            die();
+        } else {
+
+            $data = array('upload_data' => $this->upload->data());
+
+            $value = array(
+                "portfolio_Title" => serialize($this->input->post("portfolio_Title")),
+                "portfolio_Detail" => serialize($this->input->post("portfolio_Detail")),
+                "portfolio_Picture" => $data['upload_data']['file_name'],
+                "portfolio_Status" => "1",
+                "group" => $this->input->post("group"),
+            );
+            $this->Project_model->insert("tbl_portfolio", $value);
+
+            $this->set_alert('insert');
+            redirect('backoffice/admin/gallery');
+            die();
+        }
+
+
+
+        die();
+
         $years = $this->input->post("years");
         $months = $this->input->post("months");
         $days = $this->input->post("days");
@@ -1338,9 +1383,11 @@ class Admin extends MX_Controller {
             "portfolio_Status" => "1"
         );
         if ($this->db->get_where('tbl_product_type', array('product_type_Name =' => $data['product_type_Name']))->num_rows() > 0) {
+
             $this->set_alert('duplicate');
-            redirect('backoffice/Admin/portfolio');
+            redirect('backoffice/admin/gallery');
         } else {
+
             if ($this->Project_model->insert("tbl_portfolio", $data)) {
                 $this->set_alert('insert');
                 $pfo_id = $this->Project_model->get_pfo_id_max();
@@ -1385,7 +1432,7 @@ class Admin extends MX_Controller {
                     "portfolio_Picture" => $filename,
                 );
                 if ($this->Project_model->update("tbl_portfolio", $data_pic, $where) == 1) {
-                    redirect('backoffice/Admin/portfolio');
+                    redirect('backoffice/admin/gallery');
 //                echo "111111111";
                 } else {
                     $msg['status'] = FALSE;
@@ -1399,10 +1446,11 @@ class Admin extends MX_Controller {
         $data = $this->Project_model->get_portfolio_byID($this->input->post("portfolio_ID"));
         foreach ($data as $pfo) {
             $portfolio_ID = $pfo['portfolio_ID'];
-            $portfolio_Title = $pfo['portfolio_Title'];
-            $portfolio_Detail = $pfo['portfolio_Detail'];
+            $portfolio_Title = unserialize($pfo['portfolio_Title']);
+            $portfolio_Detail = unserialize($pfo['portfolio_Detail']);
             $portfolio_Date = $pfo['portfolio_Date'];
             $portfolio_Picture = $pfo['portfolio_Picture'];
+            $group = $pfo['group'];
         }
 
         $datecut = explode("-", $portfolio_Date);
@@ -1411,15 +1459,14 @@ class Admin extends MX_Controller {
         $d = $datecut[2];
 
         $arr = array(
-            $test = array(
-        "portfolio_ID" => $portfolio_ID,
-        "portfolio_Title" => $portfolio_Title,
-        "portfolio_Detail" => $portfolio_Detail,
-        "portfolio_Picture" => $portfolio_Picture,
-        "years" => $y,
-        "months" => $m,
-        "days" => $d
-            )
+            "portfolio_ID" => $portfolio_ID,
+            "portfolio_Title" => $portfolio_Title,
+            "portfolio_Detail" => $portfolio_Detail,
+            "portfolio_Picture" => $portfolio_Picture,
+            "years" => $y,
+            "months" => $m,
+            "days" => $d,
+            "group" => $group
         );
 
 //        return $test;
@@ -1427,22 +1474,26 @@ class Admin extends MX_Controller {
     }
 
     function update_portfolio() {
+
+//        print_r($this->input->post());
+//        die();
         $where = array(
             "portfolio_ID" => $this->input->post("edit_portfolio_ID")
         );
-        $years = $this->input->post("edit_years");
-        $months = $this->input->post("edit_months");
-        $days = $this->input->post("edit_days");
-        $date = $years . "-" . $months . "-" . $days;
+        // $years = $this->input->post("edit_years");
+        //$months = $this->input->post("edit_months");
+        // $days = $this->input->post("edit_days");
+        // $date = $years . "-" . $months . "-" . $days;
         $data = array(
-            "portfolio_Title" => $this->input->post("edit_portfolio_Title"),
-            "portfolio_Detail" => $this->input->post("edit_portfolio_Detail"),
-            "portfolio_Date" => $date
+            "portfolio_Title" => serialize($this->input->post("edit_portfolio_Title")),
+            "portfolio_Detail" => serialize($this->input->post("edit_portfolio_Detail")),
+            "group" => $this->input->post("group")
+                //  "portfolio_Date" => $date
         );
         if ($this->Project_model->update("tbl_portfolio", $data, $where) == 1) {
             $msg['status'] = TRUE;
             $this->set_alert('update');
-            redirect('backoffice/Admin/portfolio/');
+            redirect('backoffice/admin/gallery');
         } else {
             $msg['status'] = FALSE;
         }
@@ -1479,7 +1530,7 @@ class Admin extends MX_Controller {
 
     function delete_portfolio() {
         if ($this->input->post("del_portfolio_Picture") != "") {
-            unlink('assets/pic_portfolio/' . $this->input->post("del_portfolio_Picture"));
+            @unlink('assets/pic_portfolio/' . $this->input->post("del_portfolio_Picture"));
         }
         $where = array(
             "portfolio_ID" => $this->input->post("del_portfolio_ID"),
@@ -1487,7 +1538,7 @@ class Admin extends MX_Controller {
         if ($this->Project_model->delete("tbl_portfolio", $where) == 1) {
             $msg['status'] = TRUE;
             $this->set_alert('delete');
-            redirect('backoffice/Admin/portfolio/');
+            redirect('backoffice/admin/gallery/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -1574,7 +1625,7 @@ class Admin extends MX_Controller {
 
             if ($this->Project_model->update("tbl_bank", $value2, $where) == 1) {
                 $this->set_alert('insert');
-                redirect('backoffice/Admin/bank');
+                redirect('backoffice/admin/bank');
             }
         }
     }
@@ -1591,7 +1642,7 @@ class Admin extends MX_Controller {
         if ($this->Project_model->update("tbl_bank", $data, $where) == 1) {
             $msg['status'] = TRUE;
             $this->set_alert('update');
-            redirect('backoffice/Admin/bank/');
+            redirect('backoffice/admin/bank/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -1606,7 +1657,7 @@ class Admin extends MX_Controller {
 
     function delete_bank() {
         if ($this->input->post("bank_Picture_del") != "") {
-            unlink('assets/pic_bank/' . $this->input->post("bank_Picture_del"));
+            @unlink('assets/pic_bank/' . $this->input->post("bank_Picture_del"));
         }
         $where = array(
             "bank_ID" => $this->input->post("bank_ID1"),
@@ -1614,7 +1665,7 @@ class Admin extends MX_Controller {
         if ($this->Project_model->delete("tbl_bank", $where) == 1) {
             $msg['status'] = TRUE;
             $this->set_alert('delete');
-            redirect('backoffice/Admin/bank/');
+            redirect('backoffice/admin/bank/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -1625,14 +1676,109 @@ class Admin extends MX_Controller {
 //สไลด์หน้าหลัก
     function slider() {
         if ($this->check_login()) {
-            $content["content"] = $this->load->view("admin_slider_view", $this->get_data_slider(), TRUE);
+            //  print_r($this->get_data_slider());
+            //  die();
+            // $arrData = array();
+
+            $data = $this->get_data_slider();
+
+
+            foreach ($data['data_slider'] as $value) {
+
+                $arr[] = array(
+                    'slider_ID' => $value['slider_ID'],
+                    'slider_Number' => $value['slider_Number'],
+                    'slider_Title' => ($value['slider_Title']),
+                    'slider_Detail' => ($value['slider_Detail']),
+                    'slider_Picture' => $value['slider_Picture'],
+                    'slider_Status' => $value['slider_Status'],
+                );
+            }
+
+
+            $arrData['data_slider'] = $arr;
+
+//           print_r($arrData);
+//          die();
+            $content["content"] = $this->load->view("admin_slider_view", $arrData, TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function treatment_booking() {
+        if ($this->check_login()) {
+            //  print_r($this->get_data_slider());
+            //  die();
+            // $arrData = array();
+
+            $data = $this->get_data_slider();
+
+
+            foreach ($data['data_slider'] as $value) {
+
+                $arr[] = array(
+                    'slider_ID' => $value['slider_ID'],
+                    'slider_Number' => $value['slider_Number'],
+                    'slider_Title' => ($value['slider_Title']),
+                    'slider_Detail' => ($value['slider_Detail']),
+                    'slider_Picture' => $value['slider_Picture'],
+                    'slider_Status' => $value['slider_Status'],
+                );
+            }
+
+
+            $arrData['data_slider'] = $arr;
+
+//           print_r($arrData);
+//          die();
+            $content["content"] = $this->load->view("admin_booking_view", $arrData, TRUE);
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function add_price() {
+
+
+        $config['upload_path'] = 'assets/pic_price/';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+        $config['encrypt_name'] = TRUE;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('price_Picture')) {
+
+
+            $this->set_alert_array('error', $this->upload->display_errors());
+            redirect('backoffice/admin/treatment_price/');
+            die();
+        } else {
+
+            //ลบภาพเก่า
+            // @unlink('assets/pic_price/' . $this->input->post("edit_price_Picture"));
+
+            $data = array('upload_data' => $this->upload->data());
+            //$edit_price_ID = $this->input->post("edit_price_ID");
+            $this->Project_model->insert('tbl_price', array(
+                'price_Number' => $this->input->post("price_Number"),
+                'price_Title' => (serialize($this->input->post("price_Title"))),
+                'price_Detail' => (serialize($this->input->post("price_Detail"))),
+                'price_Cost' => (serialize($this->input->post("price_Cost"))),
+                'price_Picture' => $data['upload_data']['file_name'],
+                'price_Status' => 1
+            ));
+
+            $this->set_alert('picture');
+            redirect('backoffice/admin/treatment_price/');
+            die();
         }
     }
 
     function add_slider() {
+
 
         $config['upload_path'] = 'assets/pic_slider/';
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -1644,7 +1790,46 @@ class Admin extends MX_Controller {
 
 
             $this->set_alert_array('error', $this->upload->display_errors());
-            redirect('backoffice/Admin/slider');
+            redirect('backoffice/admin/slider/');
+            die();
+        } else {
+
+            //ลบภาพเก่า
+            // @unlink('assets/pic_slider/' . $this->input->post("edit_slider_Picture"));
+
+            $data = array('upload_data' => $this->upload->data());
+            //$edit_slider_ID = $this->input->post("edit_slider_ID");
+            $this->Project_model->insert('tbl_slider', array(
+                'slider_Number' => $this->input->post("slider_Number"),
+                'slider_Title' => (serialize($this->input->post("slider_Title"))),
+                'slider_Detail' => (serialize($this->input->post("slider_Detail"))),
+                'slider_Picture' => $data['upload_data']['file_name'],
+                'slider_Status' => 1
+            ));
+
+            $this->set_alert('picture');
+            redirect('backoffice/admin/slider/');
+            die();
+        }
+
+
+
+
+        //  echo (serialize($_POST['slider_Detail']));
+        //   echo (unserialize($_POST['slider_Detail']));
+        die();
+
+        $config['upload_path'] = 'assets/pic_slider/';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+        $config['encrypt_name'] = TRUE;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('slider_Picture')) {
+
+
+            $this->set_alert_array('error', $this->upload->display_errors());
+            redirect('backoffice/admin/slider');
             die();
         } else {
 
@@ -1667,7 +1852,7 @@ class Admin extends MX_Controller {
 
             $this->set_alert('insert');
 
-            redirect('backoffice/Admin/slider');
+            redirect('backoffice/admin/slider');
             die();
         }
 
@@ -1676,7 +1861,7 @@ class Admin extends MX_Controller {
 
         $value = array(
             "slider_Title" => $this->input->post("slider_Title"),
-            "slider_Detail" => $this->input->post("slider_Detail"),
+            "slider_Detail" => serialize($this->input->post("slider_Detail")),
             "slider_Status" => "1",
         );
 
@@ -1723,7 +1908,7 @@ class Admin extends MX_Controller {
 
             if ($this->Project_model->update("tbl_slider", $value2, $where) == 1) {
                 $this->set_alert('insert');
-                redirect('backoffice/Admin/slider');
+                redirect('backoffice/admin/slider');
             }
         }
     }
@@ -1731,6 +1916,13 @@ class Admin extends MX_Controller {
     function get_data_slider() {
         $data = array(
             "data_slider" => $this->Project_model->get_data_slider()
+        );
+        return $data;
+    }
+
+    function get_data_price() {
+        $data = array(
+            "data_price" => $this->Project_model->get_data_price()
         );
         return $data;
     }
@@ -1761,26 +1953,108 @@ class Admin extends MX_Controller {
         echo json_encode($msg);
     }
 
+    function update_status_price() {
+        $where = array(
+            "price_ID" => $this->input->post("price_ID")
+        );
+//        echo json_encode($this->input->post("product_group_Status"));
+//        exit;
+        if ($this->input->post("price_Status") == 2) {
+            $stt = 1;
+        } else {
+            $stt = 2;
+        }
+
+        $data = array(
+            "price_Status" => $stt
+        );
+//        echo json_encode($data);
+//        exit;
+        if ($this->Project_model->update("tbl_price", $data, $where) == 1) {
+            $msg['status'] = TRUE;
+        } else {
+            $msg['status'] = FALSE;
+        }
+
+        echo json_encode($msg);
+    }
+
     function get_slider_byID() {//ค้างค่าที่หน้าแก้ไข
         $data = $this->Project_model->get_slider_byID($this->input->post("slider_ID"));
-        echo json_encode($data);
+
+        $arrData = array(
+            "slider_Title" => unserialize($data[0]['slider_Title']),
+            "slider_Detail" => unserialize($data[0]['slider_Detail']),
+            "slider_Picture" => $data[0]['slider_Picture'],
+            "slider_Number" => $data[0]['slider_Number'],
+            "slider_Status" => $data[0]['slider_Status'],
+        );
+
+
+        echo json_encode($arrData);
+    }
+
+    function get_price_byID() {//ค้างค่าที่หน้าแก้ไข
+        $data = $this->Project_model->get_price_byID($this->input->post("price_ID"));
+
+        $arrData = array(
+            "price_Title" => unserialize($data[0]['price_Title']),
+            "price_Detail" => unserialize($data[0]['price_Detail']),
+            "price_Picture" => $data[0]['price_Picture'],
+            "price_Number" => $data[0]['price_Number'],
+            "price_Status" => $data[0]['price_Status'],
+            "price_Cost" => unserialize($data[0]['price_Cost']),
+        );
+
+
+        echo json_encode($arrData);
     }
 
     function update_slider() {
 //        echo $this->input->post("edit_slider_ID");
 //        exit;
+//       print_r(($this->input->post("edit_slider_ID")));
+//        die();
+
         $where = array(
             "slider_ID" => $this->input->post("edit_slider_ID")
         );
         $data = array(
-            "slider_Title" => $this->input->post("edit_slider_Title"),
-            "slider_Detail" => $this->input->post("edit_slider_Detail"),
+            "slider_Title" => serialize($this->input->post("edit_slider_Title")),
+            "slider_Detail" => serialize($this->input->post("edit_slider_Detail")),
             "slider_Number" => $this->input->post("edit_slider_Number"),
         );
-        if ($this->Project_model->update("tbl_slider", $data, $where) == 1) {
+        if ($this->Project_model->update("tbl_slider", $data, $where)) {
             $msg['status'] = TRUE;
             $this->set_alert('update');
-            redirect('backoffice/Admin/slider');
+            redirect('backoffice/admin/slider');
+            die();
+        } else {
+            $msg['status'] = FALSE;
+        }
+
+        echo json_encode($msg);
+    }
+
+    function update_price() {
+//        echo $this->input->post("edit_price_ID");
+//        exit;
+        // print_r(($this->input->post("edit_price_ID")));
+        //  die();
+
+        $where = array(
+            "price_ID" => $this->input->post("edit_price_ID")
+        );
+        $data = array(
+            "price_Title" => serialize($this->input->post("edit_price_Title")),
+            "price_Detail" => serialize($this->input->post("edit_price_Detail")),
+            "price_Cost" => serialize($this->input->post("edit_price_Cost")),
+            "price_Number" => $this->input->post("edit_price_Number"),
+        );
+        if ($this->Project_model->update("tbl_price", $data, $where)) {
+            $msg['status'] = TRUE;
+            $this->set_alert('update');
+            redirect('backoffice/admin/treatment_price');
             die();
         } else {
             $msg['status'] = FALSE;
@@ -1791,7 +2065,7 @@ class Admin extends MX_Controller {
 
     function delete_slider() {
         if ($this->input->post("del_slider_Picture") != "") {
-            unlink('assets/pic_slider/' . $this->input->post("del_slider_Picture"));
+            @unlink('assets/pic_slider/' . $this->input->post("del_slider_Picture"));
         }
         $where = array(
             "slider_ID" => $this->input->post("del_slider_ID"),
@@ -1799,7 +2073,43 @@ class Admin extends MX_Controller {
         if ($this->Project_model->delete("tbl_slider", $where) == 1) {
             $msg['status'] = TRUE;
             $this->set_alert('delete');
-            redirect('backoffice/Admin/slider/');
+            redirect('backoffice/admin/slider/');
+        } else {
+            $msg['status'] = FALSE;
+        }
+
+        echo json_encode($msg);
+    }
+
+    function delete_price() {
+        if ($this->input->post("del_price_Picture") != "") {
+            @unlink('assets/pic_price/' . $this->input->post("del_price_Picture"));
+        }
+        $where = array(
+            "price_ID" => $this->input->post("del_price_ID"),
+        );
+        if ($this->Project_model->delete("tbl_price", $where) == 1) {
+            $msg['status'] = TRUE;
+            $this->set_alert('delete');
+            redirect('backoffice/admin/treatment_price/');
+        } else {
+            $msg['status'] = FALSE;
+        }
+
+        echo json_encode($msg);
+    }
+
+    function delete_price_Picture() {
+        if ($this->input->post("del_price_Picture") != "") {
+            @unlink('assets/pic_price/' . $this->input->post("del_price_Picture"));
+        }
+        $where = array(
+            "price_ID" => $this->input->post("del_price_ID"),
+        );
+        if ($this->Project_model->delete("tbl_price", $where) == 1) {
+            $msg['status'] = TRUE;
+            $this->set_alert('delete');
+            redirect('backoffice/admin/price_Picture/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -1812,8 +2122,42 @@ class Admin extends MX_Controller {
         echo json_encode($data);
     }
 
+    function edit_pic_price() {
+        //print_r($this->input->post("edit_slider_Picture")['name']);
+
+        $config['upload_path'] = 'assets/pic_price/';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+        $config['encrypt_name'] = TRUE;
+
+
+        // print_r($this->input->post());
+        //  die();
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('edit_price_Picture11')) {
+
+
+            $this->set_alert_array('error', $this->upload->display_errors());
+            redirect('backoffice/admin/treatment_price/');
+            die();
+        } else {
+
+            //ลบภาพเก่า
+            @unlink('assets/pic_price/' . $this->input->post("edit_price_Picture"));
+
+            $data = array('upload_data' => $this->upload->data());
+            $edit_price_ID = $this->input->post("edit_price_ID");
+            $this->Project_model->update('tbl_price', array('price_Picture' => $data['upload_data']['file_name']), array('price_ID' => $edit_price_ID));
+
+            $this->set_alert('picture');
+            redirect('backoffice/admin/treatment_price/');
+            die();
+        }
+    }
+
     function edit_pic_slider() {
         //print_r($this->input->post("edit_slider_Picture")['name']);
+
         $config['upload_path'] = 'assets/pic_slider/';
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $config['encrypt_name'] = TRUE;
@@ -1824,25 +2168,25 @@ class Admin extends MX_Controller {
 
 
             $this->set_alert_array('error', $this->upload->display_errors());
-            redirect('backoffice/Admin/slider/');
+            redirect('backoffice/admin/slider/');
             die();
         } else {
 
             //ลบภาพเก่า
-            unlink('assets/pic_slider/' . $this->input->post("edit_slider_Picture"));
+            @unlink('assets/pic_slider/' . $this->input->post("edit_slider_Picture"));
 
             $data = array('upload_data' => $this->upload->data());
             $edit_slider_ID = $this->input->post("edit_slider_ID");
             $this->Project_model->update('tbl_slider', array('slider_Picture' => $data['upload_data']['file_name']), array('slider_ID' => $edit_slider_ID));
 
             $this->set_alert('picture');
-            redirect('backoffice/Admin/slider/');
+            redirect('backoffice/admin/slider/');
             die();
         }
 
 
 //        if ($this->input->post("edit_slider_Picture") != "") {
-//            unlink('assets/pic_slider/' . $this->input->post("edit_slider_Picture"));
+//            @unlink('assets/pic_slider/' . $this->input->post("edit_slider_Picture"));
 //        }
 //        $name = $this->input->post("edit_slider_Picture");
 //
@@ -1861,41 +2205,75 @@ class Admin extends MX_Controller {
 //            }
 //        };
 //        $this->set_alert('picture');
-//        redirect('backoffice/Admin/slider/');
+//        redirect('backoffice/admin/slider/');
     }
 
     function edit_pic_portfolio_Picture() {
 
 
-        if ($this->input->post("edit_pic_portfolio_Picture") != "") {
-            unlink('assets/pic_portfolio/' . $this->input->post("edit_pic_portfolio_Picture"));
+        $config['upload_path'] = 'assets/pic_portfolio/';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+        $config['encrypt_name'] = TRUE;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('edit_pic_portfolio_Picture')) {
+
+
+            $this->set_alert_array('error', $this->upload->display_errors());
+            redirect('backoffice/admin/gallery/');
+            die();
+        } else {
+
+            //ลบภาพเก่า
+            @unlink('assets/pic_portfolio/' . $this->input->post("show_pic_portfolio_Picture"));
+
+            $data = array('upload_data' => $this->upload->data());
+
+//            print_r($data['upload_data']);
+//            die();
+
+            $edit_pic_portfolio_ID = $this->input->post("edit_pic_portfolio_ID");
+            $this->Project_model->update('tbl_portfolio', array('portfolio_Picture' => $data['upload_data']['file_name']), array('portfolio_ID' => $edit_pic_portfolio_ID));
+
+            $this->set_alert('picture');
+            redirect('backoffice/admin/gallery/');
+            die();
         }
-        $name = $this->input->post("edit_pic_portfolio_Picture");
 
 
-        $type = explode('.', $_FILES["edit_pic_portfolio_Picture"]["name"]);
-        $type = strtolower($type[count($type) - 1]);
-        $url = "assets/pic_portfolio/" . $name;
-
-
-        if (in_array($type, array("jpg", "jpeg", "gif", "png"))) {
-
-            if (is_uploaded_file($_FILES["edit_pic_portfolio_Picture"]["tmp_name"])) {
-
-                if (move_uploaded_file($_FILES["edit_pic_portfolio_Picture"]["tmp_name"], $url)) {
-                    
-                }
-            }
-        };
-        $this->set_alert('picture');
-        redirect('backoffice/Admin/portfolio/', 'refresh');
+//
+//        if ($this->input->post("edit_pic_portfolio_Picture") != "") {
+//            @unlink('assets/pic_portfolio/' . $this->input->post("edit_pic_portfolio_Picture"));
+//        }
+//        $name = $this->input->post("edit_pic_portfolio_Picture");
+//
+//
+//        $type = explode('.', $_FILES["edit_pic_portfolio_Picture"]["name"]);
+//        $type = strtolower($type[count($type) - 1]);
+//        $url = "assets/pic_portfolio/" . $name;
+//
+//
+//        if (in_array($type, array("jpg", "jpeg", "gif", "png"))) {
+//
+//            if (is_uploaded_file($_FILES["edit_pic_portfolio_Picture"]["tmp_name"])) {
+//
+//                if (move_uploaded_file($_FILES["edit_pic_portfolio_Picture"]["tmp_name"], $url)) {
+//                    
+//                }
+//            }
+//        } else {
+//            $this->set_alert('error', 'ไฟล์นี้ไม่สามารถอัพโหลดได้');
+//        }
+//        $this->set_alert('picture');
+//        redirect('backoffice/admin/gallery','refresh');
     }
 
     function edit_pic_bank_Picture() {
 
 
         if ($this->input->post("edit_pic_bank_Picture") != "") {
-            unlink('assets/pic_bank/' . $this->input->post("edit_pic_bank_Picture"));
+            @unlink('assets/pic_bank/' . $this->input->post("edit_pic_bank_Picture"));
         }
         $name = $this->input->post("edit_pic_bank_Picture");
 
@@ -1915,7 +2293,7 @@ class Admin extends MX_Controller {
             }
         };
         $this->set_alert('picture');
-        redirect('backoffice/Admin/bank/', 'refresh');
+        redirect('backoffice/admin/bank/');
     }
 
 //สมาชิก
@@ -1924,7 +2302,7 @@ class Admin extends MX_Controller {
             $content["content"] = $this->load->view("admin_member_view", $this->data_member(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -2026,7 +2404,7 @@ class Admin extends MX_Controller {
         } else {
             $value = "1";
             $namepic = "";
-            unlink('assets/pic_report/' . $this->input->post("product_report_MoneyPic"));
+            @unlink('assets/pic_report/' . $this->input->post("product_report_MoneyPic"));
         }
         $data = array(
             "product_report_Status" => $value,
@@ -2124,7 +2502,7 @@ class Admin extends MX_Controller {
 
     public function EditTransport() {
         $rid = $this->input->post("product_report_ID4");
-        unlink('assets/pic_report_Trans/' . $this->input->post('product_report_TranspoPic1'));
+        @unlink('assets/pic_report_Trans/' . $this->input->post('product_report_TranspoPic1'));
 
         $type = explode('.', $_FILES["product_report_TranspoPic"]["name"]);
         $type = strtolower($type[count($type) - 1]);
@@ -2232,7 +2610,7 @@ class Admin extends MX_Controller {
         if ($this->Project_model->update("tbl_admin", $data, $where) == 1) {
             $msg['status'] = TRUE;
             $this->set_alert('update');
-            redirect('backoffice/Admin/profile/');
+            redirect('backoffice/admin/profile/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -2255,7 +2633,7 @@ class Admin extends MX_Controller {
             // date("Y-m-d_H_i_s.")
             $name = $this->session->userdata('admin_Picture');
             if ($name != "" && $_FILES["admin_Picture"]["name"] != "") {
-                unlink('assets/pic_admin/' . $this->session->userdata('admin_Picture'));
+                @unlink('assets/pic_admin/' . $this->session->userdata('admin_Picture'));
             }
 
             $type = explode('.', $_FILES["admin_Picture"]["name"]);
@@ -2281,7 +2659,7 @@ class Admin extends MX_Controller {
                         );
                         if ($this->Project_model->update("tbl_admin", $arrData, $arrWhere)) {
                             $this->set_alert('picture');
-                            redirect('backoffice/Admin/picture/');
+                            redirect('backoffice/admin/picture/');
                         }
                     }
                 }
@@ -2303,7 +2681,7 @@ class Admin extends MX_Controller {
 
     public function logout() {
         $this->session->sess_destroy();
-        redirect('backoffice/Admin/login_admin');
+        redirect('backoffice/admin/login_admin');
     }
 
     public function check_password() {
@@ -2419,7 +2797,7 @@ class Admin extends MX_Controller {
                 
             }
         }
-        redirect('backoffice/Admin/product_birthday');
+        redirect('backoffice/admin/product_birthday');
     }
 
     function update_status_product_birthday() {
@@ -2463,7 +2841,7 @@ class Admin extends MX_Controller {
         if ($this->Project_model->update("tbl_product_birthday", $data, $where) == 1) {
             $msg['status'] = TRUE;
             $this->set_alert('update');
-            redirect('backoffice/Admin/product_birthday/');
+            redirect('backoffice/admin/product_birthday/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -2477,7 +2855,7 @@ class Admin extends MX_Controller {
         );
         if ($this->Project_model->delete("tbl_product_birthday", $where) == 1) {
             $this->set_alert('delete');
-            redirect('backoffice/Admin/product_birthday/');
+            redirect('backoffice/admin/product_birthday/');
         } else {
             $msg['status'] = FALSE;
         }
@@ -2502,7 +2880,7 @@ class Admin extends MX_Controller {
         );
         if ($this->Project_model->delete_clickpop("tbl_product", $data) == 1) {
             $this->set_alert('delete');
-            redirect('backoffice/Admin/product/');
+            redirect('backoffice/admin/product/');
         }
     }
 
@@ -2512,7 +2890,7 @@ class Admin extends MX_Controller {
             $content["content"] = $this->load->view("admin_footer_view", $this->get_data_footer(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -2528,34 +2906,72 @@ class Admin extends MX_Controller {
 
 
             $footer_detail = $this->input->post("footer_detail");
-            if ($this->Project_model->update('tbl_footer', array('footer_detail' => $footer_detail), array('id' => 1))) {
+            if ($this->Project_model->update('tbl_footer', array('footer_detail' => serialize($footer_detail)), array('id' => 1))) {
 
                 $this->set_alert('success', 'ทำรายการเรียบร้อยแล้ว');
-                redirect('backoffice/Admin/footer');
+                redirect('backoffice/admin/footer');
                 die();
             } else {
                 $this->set_alert('error', 'ไม่สามรถทำรายการได้ กรุณาลองใหม่');
-                redirect('backoffice/Admin/footer');
+                redirect('backoffice/admin/footer');
             }
         } else {
-            redirect('backoffice/Admin/login_admin');
-        }
-    }
-    //end footer
-    //
-        //philosophy
-    function philosophy() {
-        if ($this->check_login()) {
-            $content["content"] = $this->load->view("admin_philosophy_view", $this->get_data_philosophy(), TRUE);
-            $this->load->view("template/admin_template", $content);
-        } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
 
-    function get_data_philosophy() {
+    //end footer
+    //
+        //philosophy
+    function philosophy_experience() {
+        if ($this->check_login()) {
+            $content["content"] = $this->load->view("admin_philosophy_view", $this->get_data_philosophy(1), TRUE);
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function philosophy_conditions() {
+        if ($this->check_login()) {
+            $content["content"] = $this->load->view("admin_philosophy_view", $this->get_data_philosophy(2), TRUE);
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    //Treatment
+    function treatment_signature() {
+        if ($this->check_login()) {
+            $content["content"] = $this->load->view("admin_treatment_view", $this->get_data_treatment(1), TRUE);
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function treatment_price() {
+        if ($this->check_login()) {
+            $content["content"] = $this->load->view("admin_price_view", $this->get_data_price(), TRUE);
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function get_data_treatment($id) {
         $data = array(
-            "data_philosophy" => $this->Project_model->get_philosophy(1) //id = 1
+            "data_treatment" => $this->Project_model->get_treatment($id), //id = 1
+            "id" => $id
+        );
+        return $data;
+    }
+
+    function get_data_philosophy($id) {
+        $data = array(
+            "data_philosophy" => $this->Project_model->get_philosophy($id), //id = 1
+            "id" => $id
         );
         return $data;
     }
@@ -2564,29 +2980,98 @@ class Admin extends MX_Controller {
         if ($this->check_login()) {
 
 
-            $philosophy_detail = $this->input->post("philosophy_detail");
-            if ($this->Project_model->update('tbl_philosophy', array('philosophy_detail' => $philosophy_detail), array('id' => 1))) {
+            $philosophy_detail = serialize($this->input->post("philosophy_detail"));
+            $philosophy_title = serialize($this->input->post("philosophy_title"));
+            $id = $this->input->post("id");
+            if ($id == 1) {
+                $url_redirect = 'philosophy_experience';
+            }
+            if ($id == 2) {
+                $url_redirect = 'philosophy_conditions';
+            }
+
+            if ($this->Project_model->update('tbl_philosophy', array(
+                        'philosophy_detail' => $philosophy_detail,
+                        'philosophy_title' => $philosophy_title,
+                            ), array('id' => $id))) {
 
                 $this->set_alert('success', 'ทำรายการเรียบร้อยแล้ว');
-                redirect('backoffice/Admin/philosophy');
+                redirect('backoffice/admin/' . $url_redirect);
                 die();
             } else {
                 $this->set_alert('error', 'ไม่สามรถทำรายการได้ กรุณาลองใหม่');
-                redirect('backoffice/Admin/philosophy');
+                redirect('backoffice/admin/' . $url_redirect);
             }
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
-    //end philosophy
-    
-      //offers
+
+    function edit_treatment() {
+        if ($this->check_login()) {
+
+
+            $treatment_detail = serialize($this->input->post("treatment_detail"));
+            $treatment_title = serialize($this->input->post("treatment_title"));
+            $id = $this->input->post("id");
+            if ($id == 1) {
+                $url_redirect = 'treatment_signature';
+            }
+            if ($id == 2) {
+                $url_redirect = 'treatment_price';
+            }
+
+            if ($this->Project_model->update('tbl_treatment', array(
+                        'treatment_detail' => $treatment_detail,
+                        'treatment_title' => $treatment_title,
+                            ), array('id' => $id))) {
+
+                $this->set_alert('success', 'ทำรายการเรียบร้อยแล้ว');
+                redirect('backoffice/admin/' . $url_redirect);
+                die();
+            } else {
+                $this->set_alert('error', 'ไม่สามรถทำรายการได้ กรุณาลองใหม่');
+                redirect('backoffice/admin/' . $url_redirect);
+            }
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    //end treatment
+    //offers
     function offers() {
         if ($this->check_login()) {
             $content["content"] = $this->load->view("admin_offers_view", $this->get_data_offers(), TRUE);
             $this->load->view("template/admin_template", $content);
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function detail_photo() {
+        if ($this->check_login()) {
+            $content["content"] = $this->load->view("admin_detail_photo_view", array('data' => $this->Project_model->get_detail_photo(1)), TRUE);
+
+            // print_r($this->Project_model->get_detail_photo(1));
+            // die();
+
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function detail_facilities() {
+        if ($this->check_login()) {
+            $content["content"] = $this->load->view("admin_detail_facilities_view", array('data' => $this->Project_model->get_detail_photo(2)), TRUE);
+
+            // print_r($this->Project_model->get_detail_photo(1));
+            // die();
+
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
         }
     }
 
@@ -2601,21 +3086,235 @@ class Admin extends MX_Controller {
         if ($this->check_login()) {
 
 
-            $offers_detail = $this->input->post("offers_detail");
-            if ($this->Project_model->update('tbl_offers', array('offers_detail' => $offers_detail), array('id' => 1))) {
+            $offers_detail = serialize($this->input->post("offers_detail"));
+            $offers_title = serialize($this->input->post("offers_title"));
+
+            if ($this->Project_model->update('tbl_offers', array(
+                        'offers_detail' => $offers_detail,
+                        'offers_title' => $offers_title,
+                            ), array('id' => 1))) {
 
                 $this->set_alert('success', 'ทำรายการเรียบร้อยแล้ว');
-                redirect('backoffice/Admin/offers');
+                redirect('backoffice/admin/offers');
                 die();
             } else {
                 $this->set_alert('error', 'ไม่สามรถทำรายการได้ กรุณาลองใหม่');
-                redirect('backoffice/Admin/offers');
+                redirect('backoffice/admin/offers');
             }
         } else {
-            redirect('backoffice/Admin/login_admin');
+            redirect('backoffice/admin/login_admin');
         }
     }
-    //end offers
- 
 
+    function edit_photo() {
+
+        if ($this->check_login()) {
+
+
+            $gallery_detail = serialize($this->input->post("gallery_detail"));
+            $gallery_title = serialize($this->input->post("gallery_title"));
+
+            if ($this->Project_model->update('tbl_detail_gallery', array(
+                        'gallery_detail' => $gallery_detail,
+                        'gallery_title' => $gallery_title,
+                            ), array('id' => 1))) {
+
+                $this->set_alert('success', 'ทำรายการเรียบร้อยแล้ว');
+                redirect('backoffice/admin/detail_photo');
+                die();
+            } else {
+                $this->set_alert('error', 'ไม่สามรถทำรายการได้ กรุณาลองใหม่');
+                redirect('backoffice/admin/detail_photo');
+            }
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function edit_facilities() {
+
+        if ($this->check_login()) {
+
+
+            $gallery_detail = serialize($this->input->post("gallery_detail"));
+            $gallery_title = serialize($this->input->post("gallery_title"));
+
+            if ($this->Project_model->update('tbl_detail_gallery', array(
+                        'gallery_detail' => $gallery_detail,
+                        'gallery_title' => $gallery_title,
+                            ), array('id' => 2))) {
+
+                $this->set_alert('success', 'ทำรายการเรียบร้อยแล้ว');
+                redirect('backoffice/admin/detail_facilities');
+                die();
+            } else {
+                $this->set_alert('error', 'ไม่สามรถทำรายการได้ กรุณาลองใหม่');
+                redirect('backoffice/admin/detail_facilities');
+            }
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    //end gallery
+    //news
+    function news() {
+        if ($this->check_login()) {
+            $content["content"] = $this->load->view("admin_news_view", $this->get_data_news(), TRUE);
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function get_data_news() {
+        $data = array(
+            "data_news" => $this->Project_model->get_news(1) //id = 1
+        );
+        return $data;
+    }
+
+    function edit_news() {
+        if ($this->check_login()) {
+
+
+            $news_detail = $this->input->post("news_detail");
+            $news_title = $this->input->post("news_title");
+
+            if ($this->Project_model->update('tbl_news', array(
+                        'news_detail' => serialize($news_detail),
+                        'news_title' => serialize($news_title),
+                            ), array('id' => 1))) {
+
+                $this->set_alert('success', 'ทำรายการเรียบร้อยแล้ว');
+                redirect('backoffice/admin/news');
+                die();
+            } else {
+                $this->set_alert('error', 'ไม่สามรถทำรายการได้ กรุณาลองใหม่');
+                redirect('backoffice/admin/news');
+            }
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    //end news
+    //home
+    function home() {
+        if ($this->check_login()) {
+            $content["content"] = $this->load->view("admin_home_view", $this->get_data_home(), TRUE);
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function get_data_home() {
+        $data = array(
+            "data_home" => $this->Project_model->get_home(1) //id = 1
+        );
+        return $data;
+    }
+
+    function edit_home() {
+        if ($this->check_login()) {
+
+
+            $home_detail = serialize($this->input->post("home_detail"));
+            $home_title = serialize($this->input->post("home_title"));
+            if ($this->Project_model->update('tbl_home', array(
+                        'home_detail' => $home_detail,
+                        'home_title' => $home_title,
+                            ), array('id' => 1))) {
+
+                $this->set_alert('success', 'ทำรายการเรียบร้อยแล้ว');
+                redirect('backoffice/admin/home');
+                die();
+            } else {
+                $this->set_alert('error', 'ไม่สามรถทำรายการได้ กรุณาลองใหม่');
+                redirect('backoffice/admin/home');
+            }
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    //end home
+    //contact
+    function contact() {
+        if ($this->check_login()) {
+            $content["content"] = $this->load->view("admin_contact_view", $this->get_data_contact(1), TRUE);
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function contact_map() {
+        if ($this->check_login()) {
+            $content["content"] = $this->load->view("admin_contact_view", $this->get_data_contact(2), TRUE);
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function contact_tips() {
+        if ($this->check_login()) {
+            $content["content"] = $this->load->view("admin_contact_view", $this->get_data_contact(3), TRUE);
+            $this->load->view("template/admin_template", $content);
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    function get_data_contact($id) {
+        $data = array(
+            "data_contact" => $this->Project_model->get_contact($id), //id = 1
+            "id" => $id,
+        );
+        return $data;
+    }
+
+    function edit_contact() {
+        if ($this->check_login()) {
+            $id = $this->input->post("id");
+
+            if ($id == 1) {
+                $url_redireact = "contact";
+            }
+            if ($id == 2) {
+                $url_redireact = "contact_map";
+            }
+            if ($id == 3) {
+                $url_redireact = "contact_tips";
+            }
+
+
+
+
+
+
+            $contact_detail = $this->input->post("contact_detail");
+            $contact_title = $this->input->post("contact_title");
+
+
+            if ($this->Project_model->update('tbl_contact', array(
+                        'contact_detail' => serialize($contact_detail),
+                        'contact_title' => serialize($contact_title),
+                            ), array('id' => $id))) {
+
+                $this->set_alert('success', 'ทำรายการเรียบร้อยแล้ว');
+                redirect('backoffice/admin/' . $url_redireact);
+                die();
+            } else {
+                $this->set_alert('error', 'ไม่สามรถทำรายการได้ กรุณาลองใหม่');
+                redirect('backoffice/admin/' . $url_redireact);
+            }
+        } else {
+            redirect('backoffice/admin/login_admin');
+        }
+    }
+
+    //end contact
 }

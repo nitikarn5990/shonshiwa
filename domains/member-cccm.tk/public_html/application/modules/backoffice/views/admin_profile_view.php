@@ -48,7 +48,7 @@
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group required">
                                 <label for="InputUserame"> ชื่อที่ใช้ในการล็อคอิน </label>
-                                <input required="required" readonly="readonly" type="text" class="form-control" id="adimn_Username" name="admin_Username" placeholder="Username">
+                                <input required="required" readonly="readonly" type="text" class="form-control" id="adimn_Username" name="admin_Username" placeholder="Username" value="<?= $data_admin[0]['admin_Username'] ?>">
                             </div>
                             <div class="form-group required">
                                 <label for="InputName"> ชื่อ </label></br>

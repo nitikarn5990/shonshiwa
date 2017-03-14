@@ -12,7 +12,7 @@
     $(document).ready(function () {
         $('#slider').DataTable({
             "aoColumnDefs": [
-                {'bSortable': false, 'aTargets': [1, 5, 6]}
+                {'bSortable': false, 'aTargets': [1, 3, 5, 6]}
             ]
         });
     });
@@ -50,46 +50,68 @@
                     dataType: "json",
                     success: function (data)
                     {
-                        console.log(data);
+                        
+                       // var obj = JSON.parse(data);
+                     //   console.log(obj);
+
                         if (data)
                         {
                             $("#modal-sizes-3").modal('show');
-                            $.each(data, function (key, value)
-                            {
-                                $("#edit_slider_ID").val(slider_ID);
-                                $("#edit_slider_Title").val(value.slider_Title);
-                                $("#edit_slider_Number").val(value.slider_Number);
-                                $("#edit_slider_Detail").val(value.slider_Detail);
-                                //   alert('ss')
-                                tinyMCE.activeEditor.setContent(value.slider_Detail);
+                            $("#edit_slider_ID").val(slider_ID);
 
-                            });
+                            $("#edit_slider_Number").val(data.slider_Number);
+                            
+                            
+                                $("#edit_slider_Title1").val(data.slider_Title.en);
+                                $("#edit_slider_Title2").val(data.slider_Title.nl);
+                                 tinymce.get('edit_slider_Detail1').setContent(data.slider_Detail.en);
+                                tinymce.get('edit_slider_Detail2').setContent(data.slider_Detail.nl);
+
+//                            $.each(data.slider_Title, function (key, value)
+//                            {
+//                            //   alert(value);
+//                              //console.log(key.en);
+//                              //  $("#edit_slider_Title1").val(value);
+//                            //    $("#edit_slider_Title2").val(value.slider_Title[key].nl);
+//
+//                            });
+////                            $.each(data.slider_Detail, function (key, value)
+////                            {
+////                               // alert('1');
+////                                tinymce.get('edit_slider_Detail1').setContent(value.en);
+////                                tinymce.get('edit_slider_Detail2').setContent(value.nl);
+////
+////
+////                            });
                         }
                     }
                 });
     }
     function delete_slider(slider_ID)
     {
-        var send = {"slider_ID": slider_ID};
-        $.ajax
-                ({
-                    url: "<?php echo base_url() ?>backoffice/Admin/get_slider_byID",
-                    type: "POST",
-                    data: send,
-                    dataType: "json",
-                    success: function (data) {
-                        console.log(data);
-                        if (data)
-                        {
-                            $("#modal-sizes-3").modal('show');
-                            $.each(data, function (key, value)
-                            {
-                                $("#del_slider_ID").val(slider_ID);
-                                $("#del_slider_Picture").val(value.slider_Picture);
-                            });
-                        }
-                    }
-                })
+        
+           $("#del_slider_ID").val(slider_ID);
+         //  $("#del_slider_Picture").val(value.slider_Picture);
+       // var send = {"slider_ID": slider_ID};
+//        $.ajax
+//                ({
+//                    url: "<?php echo base_url() ?>backoffice/Admin/get_slider_byID",
+//                    type: "POST",
+//                    data: send,
+//                    dataType: "json",
+//                    success: function (data) {
+//                        console.log(data);
+//                        if (data)
+//                        {
+//                            $("#modal-sizes-3").modal('show');
+//                            $.each(data, function (key, value)
+//                            {
+//                                $("#del_slider_ID").val(slider_ID);
+//                                $("#del_slider_Picture").val(value.slider_Picture);
+//                            });
+//                        }
+//                    }
+//                })
     }
     function edit_pic(slider_ID, slider_Picture)
     {
@@ -392,49 +414,52 @@ $(document).ready(function() {
     <div class="x_panel">
         <div class="x_title">
             <h2>จัดการสไลด์ภาพหน้าหลัก</h2>
-             <div class="clearfix"></div>
+            <div class="clearfix"></div>
         </div>  
-       
-
-
         <div class="x_content ">
             <?php echo $this->session->flashdata('msg'); ?>
             <!-- เพิ่มสไลด์ภาพหน้าหลัก -->
-            <div class="">
+            <div class="btn-group">
 
-                <button type="button" class="btn btn-round btn-success pull-left" data-toggle="modal" data-target=".bs-example-modal-sm">เพิ่มสไลด์ภาพหน้าหลัก</button>
+                <button type="button" class="btn btn-round btn-success" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-plus"></i>  เพิ่มสไลด์ภาพหน้าหลัก</button>
             </div>
             <p>&nbsp;</p>
-
-
             <div class="modal fullscreen fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-lg" style="width: 80%;">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                             <h4 class="modal-title" id="myModalLabel2">เพิ่มสไลด์ภาพหน้าหลัก</h4>
                         </div>
-                        <form class="form-horizontal form-label-left" onsubmit="return detailValidate()"  method="post" id="" action="add_slider/" enctype="multipart/form-data">
+                        <form class="form-horizontal form-label-left" onsubmit=""  method="post" id="" action="add_slider/" enctype="multipart/form-data">
                             <div class="modal-body">
 
                                 <div class="row form-group">
-                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">หัวข้อ</label>
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">หัวข้อ (Eng)</label>
                                     <div class="col-md-7 col-sm-7 col-xs-9">
 
-                                        <input class="form-control col-md-7 col-xs-12 required" id="slider_Title" name="slider_Title" type="text" placeholder="กรุณากรอกข้อมูล" required="">
+                                        <input class="form-control col-md-7 col-xs-12 required" id="slider_Title" name="slider_Title[en]" type="text" placeholder="กรุณากรอกข้อมูล" required="">
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">ลำดับสไลด์<span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-4 col-sm-7 col-xs-9">
-                                        <input class="form-control col-md-7 col-xs-12 required" required="required" id="" name="slider_Number" type="number" placeholder="กรุณากรอก" required="">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">หัวข้อ (Netherlands)</label>
+                                    <div class="col-md-7 col-sm-7 col-xs-9">
+
+                                        <input class="form-control col-md-7 col-xs-12 required" id="slider_Title" name="slider_Title[nl]" type="text" placeholder="กรุณากรอกข้อมูล" required="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">รายละเอียดของภาพ (Eng)</label>
+                                    <div class="col-md-7 col-sm-7 col-xs-9 " style="overflow-y: auto;">
+                                        <textarea class="form-control " rows="3" name="slider_Detail[en]" id="slider_Detail" placeholder="กรุณากรอกข้อมูล" required=""></textarea>
+
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">รายละเอียดของภาพ</label>
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">รายละเอียดของภาพ (Netherlands)</label>
                                     <div class="col-md-7 col-sm-7 col-xs-9 " style="overflow-y: auto;">
-                                        <textarea class="form-control tinymce" rows="3" name="slider_Detail" id="slider_Detail" placeholder="กรุณากรอกข้อมูล"></textarea>
+                                        <textarea class="form-control " rows="3" name="slider_Detail[nl]" id="slider_Detail" placeholder="กรุณากรอกข้อมูล" required=""></textarea>
 
                                     </div>
                                 </div>
@@ -442,6 +467,13 @@ $(document).ready(function() {
                                     <label class="control-label col-md-4 col-sm-4 col-xs-12">รูปภาพหลักของสไลด์ภาพหน้าหลัก</label>
                                     <div class="col-md-7 col-sm-7 col-xs-9">
                                         <input class="btn btn-primary col-md-12" type="file"  name="slider_Picture" id="slider_Picture" accept="pic_slider/*" required="">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">ลำดับสไลด์<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-4 col-sm-7 col-xs-9">
+                                        <input class="form-control col-md-7 col-xs-12 required" required="required" id="" name="slider_Number" type="number" placeholder="กรุณากรอก" required="">
                                     </div>
                                 </div>
 
@@ -472,22 +504,39 @@ $(document).ready(function() {
 
                                 <div class="row form-group">
                                     <input type="hidden" id="edit_slider_ID" name="edit_slider_ID">
-                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">หัวข้อ</label>
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">หัวข้อ (Eng)</label>
                                     <div class="col-md-7 col-sm-7 col-xs-9">
 
-                                        <input class="form-control col-md-7 col-xs-12 required" id="edit_slider_Title" name="edit_slider_Title" type="text" placeholder="กรุณากรอกข้อมูล" required="">
+                                        <input class="form-control col-md-7 col-xs-12 required" id="edit_slider_Title1" name="edit_slider_Title[en]" type="text" placeholder="กรุณากรอกข้อมูล" required="">
                                     </div>
                                 </div>
+                                <div class="row form-group">
+                                 
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">หัวข้อ (Netherland) </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-9">
+
+                                        <input class="form-control col-md-7 col-xs-12 required" id="edit_slider_Title2" name="edit_slider_Title[nl]" type="text" placeholder="กรุณากรอกข้อมูล" required="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">รายละเอียดของภาพ (Eng)</label>
+                                    <div class="col-md-7 col-sm-7 col-xs-9">
+                                        <textarea class="form-control tinymce" rows="3" name="edit_slider_Detail[en]" id="edit_slider_Detail1" placeholder="กรุณากรอกข้อมูล" ></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">รายละเอียดของภาพ (Netherland)</label>
+                                    <div class="col-md-7 col-sm-7 col-xs-9">
+                                        <textarea class="form-control tinymce" rows="3" name="edit_slider_Detail[nl]" id="edit_slider_Detail2" placeholder="กรุณากรอกข้อมูล" ></textarea>
+                                    </div>
+                                </div>
+
+
                                 <div class="row form-group">
                                     <label class="control-label col-md-4 col-sm-4 col-xs-12">ลำดับสไลด์</label>
                                     <div class="col-md-4 col-sm-7 col-xs-9">
                                         <input class="form-control col-md-7 col-xs-12 required" id="edit_slider_Number" name="edit_slider_Number" type="number" placeholder="กรุณากรอกเฉพาะตัวเลขเท่านั้น" required="">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">รายละเอียดของภาพ</label>
-                                    <div class="col-md-7 col-sm-7 col-xs-9">
-                                        <textarea class="form-control tinymce" rows="3" name="edit_slider_Detail" id="edit_slider_Detail" placeholder="กรุณากรอกข้อมูล" ></textarea>
                                     </div>
                                 </div>
 
@@ -505,7 +554,7 @@ $(document).ready(function() {
 
             <!-- แก้ไขรูปภาพ -->
             <div class="modal fade edit-pic1" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -521,7 +570,7 @@ $(document).ready(function() {
                                             <label class="col-md-12">รูปภาพของสไลด์ภาพหน้าหลัก</label></br>
                                             <input type="hidden" id="edit_slider_ID" name="edit_slider_ID">
                                             <input type="hidden" id="edit_slider_Picture" name="edit_slider_Picture">
-                                            <img id="show_slider_Picture11" style="max-width: 100%;" src="" alt=""></br>&nbsp;</br>
+                                            <img id="show_slider_Picture11" class="img-responsive" src="" alt=""></br>&nbsp;</br>
                                             <input class="btn btn-primary" type="file" name="edit_slider_Picture11" id="edit_slider_Picture11" accept="pic_slider/*" required="" ></br>
                                         </center>
                                     </div>
@@ -589,14 +638,18 @@ $(document).ready(function() {
                     </thead>
 
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
-                        <?php foreach ($data_slider as $key => $sl) { ?>
+                        <?php
+                        foreach ($data_slider as $key => $sl) {
+                            ?>
                             <tr class="pointer odd">
                                 <td class="text-center"><span style="text-align:center"><?= $key + 1; ?></span></td>
                                 <td>
                                     <span style="text-align:center"><a href="javascript:;" onclick="edit_pic('<?php echo $sl['slider_ID'] ?>', '<?php echo $sl['slider_Picture'] ?>');"><i data-toggle="modal" data-target=".edit-pic1"><img src="<?php echo base_url('assets/pic_slider/' . $sl['slider_Picture']); ?>" width="150" height="150"/></i></a></span>
                                 </td>
-                                <td class="text-center"><span style="text-align:center"><?= $sl['slider_Title']; ?></span></td>
-                                <td class="text-center"><span style="text-align:center"><?= $sl['slider_Number']; ?></span></td>
+                                <td class="text-center"><span style="text-align:center">
+                                        <?php $xx =  @unserialize($sl['slider_Title']); echo $xx['en']?>
+                                    </span></td>
+                                <td class="text-center"><span style="text-align:center"><?= ($sl['slider_Number']); ?></span></td>
                                 <td class="text-center last ">
                                     <?php
                                     if ($sl['slider_Status'] == 1) {
@@ -609,8 +662,8 @@ $(document).ready(function() {
                                     ?>
                                     <button style="width: 60px;" class="btn btn-<?php echo $btn_color; ?> btn-xs" id="stt_emp" onclick="changeStatus('<?php echo $sl['slider_ID'] ?>', '<?php echo $sl['slider_Status']; ?>')"><?php echo $btn_tag; ?></button>
                                 </td>
-                                <td class="text-center"><span style="text-align:center"><a href="#" onclick="edit_slider('<?php echo $sl['slider_ID'] ?>');"><i class="fa fa-clipboard" data-toggle="modal" data-target=".bs-example-modal-sm2"></i></a></span></td>
-                                <td class="text-center"><span style="text-align:center"><a href="#" onclick="delete_slider('<?php echo $sl['slider_ID'] ?>');"><i class="fa fa-times" data-toggle="modal" data-target=".CheckDel"></i></a></span></td>
+                                <td class="text-center"><span style="text-align:center"><a href="javascript:;" onclick="edit_slider('<?php echo $sl['slider_ID'] ?>');"><i class="fa fa-clipboard" data-toggle="modal" data-target=".bs-example-modal-sm2"></i></a></span></td>
+                                <td class="text-center"><span style="text-align:center"><a href="javascript:;" onclick="delete_slider('<?php echo $sl['slider_ID'] ?>');"><i class="fa fa-times" data-toggle="modal" data-target=".CheckDel"></i></a></span></td>
                             </tr>
                         <?php } ?>
                     </tbody>

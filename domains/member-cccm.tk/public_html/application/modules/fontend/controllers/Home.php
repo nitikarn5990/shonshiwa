@@ -5,12 +5,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Home extends MX_Controller {
 
     public $content;
+    public $langs = 'en'; //ภาษาหลัก
+    public $current_page_active;
 
     public function __construct() {
         parent::__construct();
         $this->load->model('F_model');
-        //load Config Menu
-//        $this->content = $this->F_model->xxx();
+
+        if ($this->uri->segment(1) != 'en' && $this->uri->segment(1) != 'nl') {
+            $this->session->set_userdata('current_page_active', $this->uri->segment(1));
+        }
+        if ($this->session->userdata('lang') == '') {
+            $this->session->set_userdata('lang', 'en');
+        }
+
+        // print_r($_SESSION);
+    }
+
+    public function en() {
+
+
+        $this->session->set_userdata('lang', 'en');
+        //   print_r( $this->session->userdata('test'));
+
+        redirect(base_url() . $this->session->userdata('current_page_active'));
+        die();
+
+
+
+//        if ($this->session->userdata('current_page_active') != '') {
+//            if($this->session->userdata('current_page_active') == 'philosophy'){
+//    
+//        }else{
+        //    $this->index();
+    }
+
+    public function nl() {
+        $this->session->set_userdata('lang', 'nl');
+        redirect(base_url() . $this->session->userdata('current_page_active'));
+        die();
+//        $this->index();
     }
 
     public function set_session($data) {
@@ -45,7 +79,6 @@ class Home extends MX_Controller {
         } else {
             $this->set_alert('login_fail');
             redirect('fontend/Home/index');
-
         }
     }
 
@@ -81,11 +114,509 @@ class Home extends MX_Controller {
     }
 
     public function index() {
-//        $this->register();
-//        $content = $this->content;
-        $content["content"] = $this->load->view("home_view", $this->get_data_home(), true);
-        $this->load->view("template/front_template", $content);
+
+
+        $data["content"] = $this->load->view("home_view", array('home' => $this->F_model->get_data_home()), true);
+        $data["footer"] = $this->load->view("footer_view", array('footer' => $this->F_model->get_data_footer()), true);
+
+        $this->load->view("template/front_template", $data);
     }
+
+      public function price_list($datebook = '', $amount = '1') {
+       
+
+
+        //  $this->load->view("home_view", array('home' => $this->F_model->get_data_home()), true);
+        // $data["footer"] = $this->load->view("footer_view", array('footer' => $this->F_model->get_data_footer()), true);
+        //  list($y, $m, $d) = reservations;
+//        list($y, $m, $d) = array_pad(explode('-', $datebook), 2, ''); //31
+//
+//        $day = cal_days_in_month(CAL_GREGORIAN, $m, $y); //จำนวนวันของเดือน
+//        $M = date('M'); //ตัวย่อเดือน Mar
+//
+//        $dayofweek = date('D', strtotime($datebook));
+//
+//        $cal = array();
+//
+//        for ($i = $d; $i < ($d + 14); $i++) {
+//
+//            $xx = array(
+//                "day" => $this->check_over_month($i, $y, $m),
+//                "M" => $this->find_M($i, $y, $m),
+//                "year" => $this->find_year($i, $y, $m),
+//                "dayofweek" => date('D', strtotime($this->y . '-' . ($this->m) . '-' . $this->d)),
+//                "weekend" => $this->active_weekend(),
+//                "date" => $this->y . '-' . ($this->m) . '-' . $this->d,
+//            );
+//            array_push($cal, $xx);
+//        }
+
+
+
+        $this->db->select('*');
+        $this->db->from('tbl_price');
+        $this->db->where("tbl_price.price_Status = 1");
+        $this->db->order_by("price_Number", "ASC");
+
+        $dataPrice = $this->db->get()->result_array();
+        $data_price = array();
+
+        foreach ($dataPrice as $value) {
+            $data = array(
+                "price_ID" => $value['price_ID'],
+                "price_Title" => unserialize($value['price_Title']),
+                "price_Detail" => unserialize($value['price_Detail']),
+                "price_Cost" => unserialize($value['price_Cost']),
+                "price_Picture" => $value['price_Picture'],
+            );
+            array_push($data_price, $data);
+        }
+
+
+
+//        for ($i = 0; $i < 24; $i++) {
+//            $data = array(
+//                "time" =>$i.:'00'.,
+//               // "price_Title" => unserialize($value['price_Title']),
+//               // "price_Detail" => unserialize($value['price_Detail']),
+//                //"price_Cost" => unserialize($value['price_Cost']),
+//            );
+//             array_push($data_time, $data);
+//        }
+//        
+        //  $data['data_time'] = $this->get_time_bydate_treatment_id($datebook,21);
+        $data['data_price'] = $data_price;
+       // $data['data'] = $cal;
+      //  $data['get_select_date'] = $datebook;
+      //  $data['amount'] = $amount;
+
+
+
+//            print_r($this->db->last_query());
+//         die();
+        $this->load->view("price_list", $data);
+    }
+    public function reservations($datebook = '', $amount = '1') {
+
+
+        //  $this->load->view("home_view", array('home' => $this->F_model->get_data_home()), true);
+        // $data["footer"] = $this->load->view("footer_view", array('footer' => $this->F_model->get_data_footer()), true);
+        //  list($y, $m, $d) = reservations;
+        list($y, $m, $d) = array_pad(explode('-', $datebook), 2, ''); //31
+
+        $day = cal_days_in_month(CAL_GREGORIAN, $m, $y); //จำนวนวันของเดือน
+        $M = date('M'); //ตัวย่อเดือน Mar
+
+        $dayofweek = date('D', strtotime($datebook));
+
+        $cal = array();
+
+        for ($i = $d; $i < ($d + 14); $i++) {
+
+            $xx = array(
+                "day" => $this->check_over_month($i, $y, $m),
+                "M" => $this->find_M($i, $y, $m),
+                "year" => $this->find_year($i, $y, $m),
+                "dayofweek" => date('D', strtotime($this->y . '-' . ($this->m) . '-' . $this->d)),
+                "weekend" => $this->active_weekend(),
+                "date" => $this->y . '-' . ($this->m) . '-' . $this->d,
+            );
+            array_push($cal, $xx);
+        }
+
+
+
+        $this->db->select('*');
+        $this->db->from('tbl_price');
+        $this->db->where("tbl_price.price_Status = 1");
+        $this->db->order_by("price_Number", "ASC");
+
+        $dataPrice = $this->db->get()->result_array();
+        $data_price = array();
+
+        foreach ($dataPrice as $value) {
+            $data = array(
+                "price_ID" => $value['price_ID'],
+                "price_Title" => unserialize($value['price_Title']),
+                "price_Detail" => unserialize($value['price_Detail']),
+                "price_Cost" => unserialize($value['price_Cost']),
+                "price_Picture" => $value['price_Picture'],
+            );
+            array_push($data_price, $data);
+        }
+
+
+
+//        for ($i = 0; $i < 24; $i++) {
+//            $data = array(
+//                "time" =>$i.:'00'.,
+//               // "price_Title" => unserialize($value['price_Title']),
+//               // "price_Detail" => unserialize($value['price_Detail']),
+//                //"price_Cost" => unserialize($value['price_Cost']),
+//            );
+//             array_push($data_time, $data);
+//        }
+//        
+        //  $data['data_time'] = $this->get_time_bydate_treatment_id($datebook,21);
+        $data['data_price'] = $data_price;
+        $data['data'] = $cal;
+        $data['get_select_date'] = $datebook;
+        $data['amount'] = $amount;
+
+
+
+//            print_r($this->db->last_query());
+//         die();
+        $this->load->view("reservations", $data);
+    }
+
+    public function reservations_complete() {
+        $this->load->view("reservations_complete", '');
+    }
+
+    public function reservations_confirm($date = '', $time = '', $treatment_id = '', $amount = '') {
+
+        // list($y, $m, $d) = array_pad(explode('-', $param1), 2, ''); //31
+        // $day = cal_days_in_month(CAL_GREGORIAN, $m, $y); //จำนวนวันของเดือน
+        // $M = date('M'); //ตัวย่อเดือน Mar
+        //  $dayofweek = date('D', strtotime($param1));
+//        $cal = array();
+//
+//        for ($i = $d; $i < ($d + 14); $i++) {
+//
+//            $xx = array(
+//                "day" => $this->check_over_month($i, $y, $m),
+//                "M" => $this->find_M($i, $y, $m),
+//                "year" => $this->find_year($i, $y, $m),
+//                "dayofweek" => date('D', strtotime($this->y . '-' . ($this->m) . '-' . $this->d)),
+//                "weekend" => $this->active_weekend(),
+//                "date" => $this->y . '-' . ($this->m) . '-' . $this->d,
+//            );
+//            array_push($cal, $xx);
+//        }
+
+        if ($this->input->post('btn_submit') == 'booknow') {
+            //ถ้ามีการบันทึก มีการจอง
+            $data = array(
+                'firstname' => $this->input->post('firstname'),
+                'lastname' => $this->input->post('lastname'),
+                'phone' => $this->input->post('phone'),
+                'email' => $this->input->post('email'),
+                'bookdate' => $this->input->post('bookdate'),
+                'status' => 1,
+                'treatment_id' => $this->input->post('treatment_id'),
+                'address' => $this->input->post('address'),
+                'amount' => $this->input->post('amount'),
+            );
+
+
+            $this->db->insert('tbl_booking', $data);
+            $last_insert_id = $this->db->insert_id();
+
+            $this->db->select('*');
+            $this->db->from('tbl_booking');
+            $this->db->where("tbl_booking.id = " . $last_insert_id);
+
+            $dataLastRow = $this->db->get()->result_array();
+
+            $arrDataBook = explode(' ', $dataLastRow[0]['bookdate']);
+
+            list($y, $m, $d) = explode('-', $arrDataBook[0]);
+            list($h, $i, $s) = explode(':', $arrDataBook[1]);
+
+
+            $MM = date('d M Y', strtotime($y . '-' . $m . '-' . $d));
+
+            $date_show = $d . ' ' . $m . ' ' . $y;
+            $time_show = $h . ':' . $i;
+
+            $data['date_show'] = $MM;
+            $data['time_show'] = $time_show;
+
+            // print_r($data);
+            //die();
+
+
+
+
+            $this->load->view("reservations_complete", $data);
+            //  die();
+        } else {
+
+            $arr_time = explode('-', $time);
+
+            $im_time = implode(':', $arr_time);
+
+            $fulldate = date('d', strtotime($date)) . ' ' . date('F', strtotime($date)) . ' ' . date('Y', strtotime($date));
+
+            $fulltime = date('H:i', strtotime($im_time));
+
+//       print_r($fulltime);
+//       die();
+
+            $this->db->select('*');
+            $this->db->from('tbl_price');
+            $this->db->where("tbl_price.price_Status = 1");
+            $this->db->where("tbl_price.price_ID = " . $treatment_id);
+            $this->db->order_by("price_Number", "ASC");
+
+            $dataPrice = $this->db->get()->result_array();
+            $data_price = array();
+
+            foreach ($dataPrice as $value) {
+                $data = array(
+                    "price_ID" => $value['price_ID'],
+                    "price_Title" => unserialize($value['price_Title']),
+                    "price_Detail" => unserialize($value['price_Detail']),
+                    "price_Cost" => unserialize($value['price_Cost']),
+                    "price_Picture" => $value['price_Picture'],
+                );
+                array_push($data_price, $data);
+            }
+
+            $data['data_price'] = $data_price;
+
+            $data['fulldate'] = $fulldate;
+            $data['fulltime'] = $fulltime;
+            $data['datetime'] = $date . ' ' . $fulltime . ':00';
+            $data['treatment_id'] = $treatment_id;
+            $data['amount'] = $amount;
+
+            //  $data['data'] = $cal;
+            // $data['get_select_date'] = $param1;
+
+            $this->load->view("reservations_confirm", $data);
+        }
+    }
+
+    public function ajax_get_time_bydate_treatment_id($date, $treatment_id) {
+
+
+
+
+        $this->db->select('*');
+        $this->db->from('tbl_booking');
+        $this->db->where("tbl_booking.status = 1");
+        $this->db->where("tbl_booking.treatment_id = " . $treatment_id);
+        $this->db->where("DATE(tbl_booking.bookdate)", $date);
+
+        $this->db->order_by("id", "ASC");
+
+        $dataTime = $this->db->get()->result_array();
+
+
+        $arr_time_booked = array();
+
+        foreach ($dataTime as $value) { //เก็บเวลาที่จองแล้วทั้งหมด
+            $date = date_create($value['bookdate']);
+            $bookdate = date_format($date, 'H:i');
+            array_push($arr_time_booked, $bookdate);
+        }
+
+        // print_r($arr_time_booked);die();
+
+
+        $start = "00:00";
+        $end = "23:30";
+
+        $tStart = strtotime($start);
+        $tEnd = strtotime($end);
+        $tNow = $tStart;
+
+        $data_time = array();
+        while ($tNow <= $tEnd) { //list time
+            // echo date("H:i", $tNow) . "\n" . "<br>";
+            //   if (date("H:i", $tNow) == $bookdate) {
+            if (in_array(date("H:i", $tNow), $arr_time_booked)) {
+                $data = array(
+                    'time' => date("H:i", $tNow),
+                    'booked' => 'booked',
+                    'treatment_id' => $treatment_id
+                );
+            } else {
+                $data = array(
+                    'time' => date("H:i", $tNow),
+                    'booked' => '',
+                    'treatment_id' => $treatment_id
+                );
+            }
+            array_push($data_time, $data);
+            $tNow = strtotime('+30 minutes', $tNow);
+        }
+        // return $data_time;
+        echo json_encode($data_time);
+    }
+
+    public function active_weekend() {
+        if (date('D', strtotime($this->y . '-' . ($this->m) . '-' . $this->d)) == 'Sat' ||
+                date('D', strtotime($this->y . '-' . ($this->m) . '-' . $this->d)) == 'Sun') {
+            return 'weekend';
+        } else {
+            return '';
+        }
+    }
+
+    public function check_over_month($d, $y, $m) {
+
+        //  $cal = array();
+        $day = cal_days_in_month(CAL_GREGORIAN, $m, $y);
+        if ($d > $day) {
+            //ยังไม่เกินเดือนนั้น
+            $start_new_day = $d - $day;
+
+            $this->d = $start_new_day;
+            return $start_new_day;
+        } else {
+            $this->d = $d;
+            return $d;
+        }
+        // $day = cal_days_in_month(CAL_GREGORIAN, $m, $y); //จำนวนวันของเดือน
+    }
+
+    public $d;
+    public $m;
+    public $y;
+
+    public function find_M($d, $y, $m) {  //ตัวย่อของเดือน
+        $day = cal_days_in_month(CAL_GREGORIAN, $m, $y);
+        if ($d > $day) {
+            //ยังไม่เกินเดือนนั้น
+            $start_new_day = $d - $day;
+
+            $M = date('M', strtotime($y . '-' . ($m + 1) . '-' . $start_new_day));
+            $this->m = date('m', strtotime($y . '-' . ($m + 1) . '-' . $start_new_day));
+            return $M;
+        } else {
+            $M = date('M', strtotime($y . '-' . ($m) . '-' . $d));
+            $this->m = date('m', strtotime($y . '-' . ($m) . '-' . $d));
+            return $M;
+        }
+    }
+
+    public function find_dayofweek($d, $y, $m) {  //หาวันของสัปดาห์
+        $day = cal_days_in_month(CAL_GREGORIAN, $m, $y);
+        if ($d > $day) {
+            //เกินเดือนนั้น
+            $start_new_day = $d - $day;
+
+            $current_m = $m + 1;
+            //  $y = $current_m > 12 ? $y + 1: $y;
+
+            $dayofweek = date('D', strtotime($y . '-' . $current_m . '-' . $start_new_day));
+
+            // return $dayofweek;
+        } else {
+            $dayofweek = date('D', strtotime($y . '-' . ($m) . '-' . $d));
+            //return $dayofweek;
+        }
+
+        return date('D', strtotime($this->y . '-' . ($this->m) . '-' . $this->d));
+    }
+
+    public function find_year($d, $y, $m) {  //หาวันของสัปดาห์
+        $day = cal_days_in_month(CAL_GREGORIAN, $m, $y);
+        if ($d > $day) {
+            //เกินเดือนนั้น
+            $start_new_day = $d - $day;
+            $current_m = $m + 1;
+
+            //$M =  date('M', strtotime($y.'-'.$current_m.'-'.$start_new_day));
+
+            if ($current_m > 12) {
+                $y = $y + 1;
+            } else {
+                $y = $y;
+            }
+
+            $this->y = $y;
+
+            return $y;
+        } else {
+            // $M =  date('M', strtotime($y.'-'.($m).'-'.$d));
+            $this->y = $y;
+            return $y;
+        }
+    }
+
+    public function offers() {
+
+
+        $data["content"] = $this->load->view("offers_view", array('offers' => $this->F_model->get_data_offers()), true);
+        //  $data["footer"] = $this->load->view("footer_view", array('footer' => $this->F_model->get_data_footer()), true);
+
+        $this->load->view("template/front_template", $data);
+    }
+
+    public function philosophy() {
+
+
+        $data["content"] = $this->load->view("philosophy_view", array('philosophy' => $this->F_model->get_data_philosophy()), true);
+        $data["footer"] = $this->load->view("footer_view", array('footer' => $this->F_model->get_data_footer()), true);
+
+        $this->load->view("template/front_template", $data);
+    }
+
+    public function news() {
+
+
+        $data["content"] = $this->load->view("news_view", array('news' => $this->F_model->get_data_news()), true);
+        // $data["footer"] = $this->load->view("footer_view", array('footer' => $this->F_model->get_data_footer()), true);
+
+        $this->load->view("template/front_template", $data);
+    }
+
+    public function treatment_signature() {
+
+
+        $data["content"] = $this->load->view("treatment_signature_view", array('treatment_signature' => $this->F_model->get_data_treatment()), true);
+        // $data["footer"] = $this->load->view("footer_view", array('footer' => $this->F_model->get_data_footer()), true);
+
+        $this->load->view("template/front_template", $data);
+    }
+
+    public function contact() {
+
+
+        $data["content"] = $this->load->view("contact_view", array('contact' => $this->F_model->get_data_contact()), true);
+        $data["footer"] = $this->load->view("footer_view", array('footer' => $this->F_model->get_data_footer()), true);
+
+        $this->load->view("template/front_template", $data);
+    }
+
+    public function gallery() {
+
+//        print_r($this->F_model->get_data_gallery()) ;
+//        die();
+        $data["content"] = $this->load->view("gallery_view", array('gallery' => $this->F_model->get_data_gallery()), true);
+        $data["footer"] = $this->load->view("footer_view", array('footer' => $this->F_model->get_data_footer()), true);
+
+        $this->load->view("template/front_template", $data);
+    }
+
+    public function photos() {
+
+//        print_r($this->F_model->get_data_gallery()) ;
+//        die();
+        $data["content"] = $this->load->view("gallery_view", array(
+            'gallery' => $this->F_model->get_data_gallery('photo'),
+            'detail' => $this->F_model->get_detail_gallery(1),
+                ), true);
+        // $data["footer"] = $this->load->view("footer_view", array('footer' => $this->F_model->get_data_footer()), true);
+
+        $this->load->view("template/front_template", $data);
+    }
+     public function facilities() {
+
+
+        $data["content"] = $this->load->view("gallery_view", array(
+            'gallery' => $this->F_model->get_data_gallery('facilities'),
+            'detail' => $this->F_model->get_detail_gallery(2),
+                ), true);
+        // $data["footer"] = $this->load->view("footer_view", array('footer' => $this->F_model->get_data_footer()), true);
+
+        $this->load->view("template/front_template", $data);
+    }
+    
 
     public function product_popular() {
         foreach ($this->F_model->pid_pop() as $aa) {
@@ -101,15 +632,17 @@ class Home extends MX_Controller {
 //        echo json_encode($this->product_popular()) ;
 //        echo "</pre>";
 //        exit;
-
-        $data = array(
-            "data_slider" => $this->F_model->get_data_slider(),
-           // "data_pro_new" => $this->F_model->get_product_new(),
-            "recommend" => $this->F_model->get_data_product_rand(),
-            "get_pro_popclick" => $this->F_model->get_pro_popclick(),
-            "product_popular" => $this->F_model->product_popular()
-        );
-        return $data;
+        //  $data =  ;
+//        $content["content"] = $this->load->view("home_view", $this->F_model->get_data_home());
+//        $this->load->view("template/front_template", $content);
+//        $data = array(
+//            "data_slider" => $this->F_model->get_data_slider(),
+//            // "data_pro_new" => $this->F_model->get_product_new(),
+//            "recommend" => $this->F_model->get_data_product_rand(),
+//            "get_pro_popclick" => $this->F_model->get_pro_popclick(),
+//            "product_popular" => $this->F_model->product_popular()
+//        );
+//        return $data;
     }
 
     public function register() {
@@ -164,7 +697,6 @@ class Home extends MX_Controller {
             $this->db->where('id', $res['id']);
             $data_update = array(
                 'view_count' => $view_count,
-
             );
             $this->db->update('tbl_view_click', $data_update);
         } else {
@@ -333,18 +865,12 @@ class Home extends MX_Controller {
         return $data;
     }
 
-    public function contact() {
-        $content["content"] = $this->load->view("contact_view", null);
-        $this->load->view("template/front_template", $content);
-    }
-
     public function product_order() {
         $content["content"] = $this->load->view("product_order_view", $this->data_product_order());
         $this->load->view("template/front_template", $content);
     }
 
-    public function data_product_order()
-    {
+    public function data_product_order() {
         $data = array(
             "price_totol" => $this->promotion_cal(),
             "percen" => $this->F_model->promotion_cal()
@@ -352,13 +878,12 @@ class Home extends MX_Controller {
         return $data;
     }
 
-
     public function promotion_cal() {
-        
+
         $price_total = $this->cart->total();
 
 
-        if($this->F_model->promotion_cal() == null){
+        if ($this->F_model->promotion_cal() == null) {
             $price_Discount = $price_total;
         } else {
             foreach ($this->F_model->promotion_cal() as $promo) {
@@ -376,8 +901,6 @@ class Home extends MX_Controller {
                 } else {
                     $price_Discount = $price_total;
                 }
-
-
             }
         }
 
@@ -385,7 +908,7 @@ class Home extends MX_Controller {
     }
 
     public function promotion_cal2() {
-        
+
         $price_total = $this->cart->total();
 
         foreach ($this->F_model->get_promotiom() as $promo) {
@@ -639,7 +1162,7 @@ class Home extends MX_Controller {
             $id = date('Ymd') . $b;
         }
         $price_total = $this->cart->total();
-        if($this->F_model->promotion_cal() == null){
+        if ($this->F_model->promotion_cal() == null) {
             $promotion_ID = 0;
             $price_Discount = $price_total;
         } else {
@@ -658,8 +1181,6 @@ class Home extends MX_Controller {
                 } else {
                     $price_Discount = $price_total;
                 }
-
-
             }
         }
         $data_report = array(
@@ -712,7 +1233,7 @@ class Home extends MX_Controller {
 
         $price_total = $this->cart->total();
 
-        if($this->F_model->promotion_cal() == null){
+        if ($this->F_model->promotion_cal() == null) {
             $promotion_ID = 0;
             $price_Discount = $price_total;
         } else {
@@ -731,8 +1252,6 @@ class Home extends MX_Controller {
                 } else {
                     $price_Discount = $price_total;
                 }
-
-
             }
         }
         $aa = $promotion_ID;
@@ -969,7 +1488,7 @@ class Home extends MX_Controller {
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                                     <strong>ไม่สามารถแก้ไขรหัสผ่านได้ คุณยืนยันรหัสผ่านผิด</strong>
                                 </div>');
-        }elseif ($alert == 'login_fail') {
+        } elseif ($alert == 'login_fail') {
             $this->session->set_flashdata('msg', '
                                 <div class="alert alert-danger alert-dismissible fade in" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -990,40 +1509,4 @@ class Home extends MX_Controller {
         $this->load->view("template/front_template", $content);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-
-

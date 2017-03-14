@@ -371,10 +371,17 @@
             <form class="form-horizontal form-label-left" id="tinyMCEForm"  onsubmit="return detailValidate()" method="post"  action="<?= base_url()?>backoffice/Admin/edit_footer" enctype="multipart/form-data">
 
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">รายละเอียด Footer <span class="required">*</span>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">รายละเอียด Footer (Eng) <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <textarea class="form-control tinymce" rows="3" name="footer_detail" id="footer_detail" placeholder="กรุณากรอกข้อมูล" ><?=$data_footer[0]['footer_detail']?></textarea>
+                        <textarea class="form-control tinymce" rows="3" name="footer_detail[en]" id="footer_detail1" placeholder="กรุณากรอกข้อมูล" ><?php $data1 = @unserialize($data_footer[0]['footer_detail']); echo $data1['en']; ?></textarea>
+                    </div>
+                </div>
+                    <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">รายละเอียด Footer (Netherland) <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <textarea class="form-control tinymce" rows="3" name="footer_detail[nl]" id="footer_detail2" placeholder="กรุณากรอกข้อมูล" ><?php $data2 = @unserialize($data_footer[0]['footer_detail']); echo $data2['nl']; ?></textarea>
                     </div>
                 </div>
 

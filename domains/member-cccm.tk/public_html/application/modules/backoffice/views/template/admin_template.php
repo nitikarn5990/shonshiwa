@@ -39,7 +39,7 @@
 
 
     <!--[if lt IE 9]>
-    <script src="<?php //echo base_url()  ?>assets/js/ie8-responsive-file-warning.js"></script>
+    <script src="<?php //echo base_url()   ?>assets/js/ie8-responsive-file-warning.js"></script>
     <![endif]-->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -59,7 +59,7 @@
     </style>
 
 
-           <?php $this->load->view("backoffice/template/scriptJs"); ?>
+    <?php $this->load->view("backoffice/template/scriptJs"); ?>
 
     <!--//http://site.creationchurchchiangmai.com/admin/plugins/tinymce/jscripts/tiny_mce/tiny_mce.js-->
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>-->
@@ -89,12 +89,57 @@
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
                             <ul class="nav side-menu">
-                                <li><a href="<?= site_url('backoffice/admin/slider') ?>"><i class="fa fa-wrench"></i> สไลด์ภาพ </a></li>
-                                <li><a href="<?= site_url('backoffice/admin/footer') ?>"><i class="fa fa-wrench"></i> Footer </a></li>
-                                <li><a href="<?= site_url('backoffice/admin/philosophy') ?>"><i class="fa fa-wrench"></i> Our Philosophy </a></li>
-                                <li><a href="<?= site_url('backoffice/admin/offers') ?>"><i class="fa fa-wrench"></i>  Special Offers </a></li>
+                                 <li><a href="<?= site_url('backoffice/admin/home') ?>"><i class="fa fa-home"></i> Home </a></li>
+                            
+                                   <li><a href="javascript:;"><i class="fa fa-thumbs-up"></i> Treatments <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="display: none">
+                                        <li><a href="<?= site_url('backoffice/admin/treatment_signature') ?>"> Signature Treatment </a></li>
+                                        <li><a href="<?= site_url('backoffice/admin/treatment_price') ?>">Price list </a></li>
+                                         <li><a href="<?= site_url('backoffice/admin/treatment_booking') ?>">Booking service </a></li>
+                                 
+                                    
+                                    </ul>
+                                </li>
+                                <li><a href="<?= site_url('backoffice/admin/slider') ?>"><i class="fa fa-picture-o"></i> Slides </a></li>
+
+                                <li><a href="javascript:;"><i class="fa fa-thumbs-up"></i> Our Philosophy <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="display: none">
+                                        <li><a href="<?= site_url('backoffice/admin/philosophy_experience') ?>">Shon-Shiwa Experience</a></li>
+                                        <li><a href="<?= site_url('backoffice/admin/philosophy_conditions') ?>">Terms & Conditions</a></li>
+                                 
+                                    
+                                    </ul>
+                                </li>
+                                <li><a href="<?= site_url('backoffice/admin/offers') ?>"><i class="fa fa-gift"></i>  Special Offers </a></li>
+                                <!--<li><a href="<?= site_url('backoffice/admin/gallery') ?>"><i class="fa fa-image"></i>  Gallery </a></li>-->
+                                
+                                 <li><a ><i class="fa fa-image"></i> Gallery <span class="fa fa-chevron-down"></span></a>
+                                   <ul class="nav child_menu" style="display: none">
+                                        <li><a href="<?= site_url('backoffice/admin/gallery') ?>">Manage Gallery </a></li>
+                                        <li><a href="<?= site_url('backoffice/admin/detail_photo') ?>">Detail Photos </a></li>
+                                        <li><a href="<?= site_url('backoffice/admin/detail_facilities') ?>">Detail Facilities </a></li>
+                                    
+                                    
+                                    </ul>
+                                </li>
+                                
+                                <li><a href="<?= site_url('backoffice/admin/news') ?>"><i class="fa fa-newspaper-o"></i>  News & Event </a></li>
+                                <li><a ><i class="fa fa-phone"></i> Contact Us <span class="fa fa-chevron-down"></span></a>
+                                   <ul class="nav child_menu" style="display: none">
+                                        <li><a href="<?= site_url('backoffice/admin/contact') ?>">Postal address</a></li>
+                                        <li><a href="<?= site_url('backoffice/admin/contact_map') ?>">Map</a></li>
+                                        <li><a href="<?= site_url('backoffice/admin/contact_tips') ?>">Etiquette & Tips</a></li>
+                                    
+                                    </ul>
+                                </li>
+                                
+                                  
+                                <li><a href="<?= site_url('backoffice/admin/footer') ?>"><img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDQ3MC41ODYgNDcwLjU4NiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDcwLjU4NiA0NzAuNTg2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPHBhdGggZD0iTTMyNy4wODEsMEg5MC4yMzRjLTE1LjksMC0yOC44NTMsMTIuOTU5LTI4Ljg1MywyOC44NTl2NDEyLjg2M2MwLDE1LjkyNCwxMi45NTMsMjguODYzLDI4Ljg1MywyOC44NjNIMzgwLjM1ICAgYzE1LjkxNywwLDI4Ljg1NS0xMi45MzksMjguODU1LTI4Ljg2M1Y4OS4yMzRMMzI3LjA4MSwweiBNMzMzLjg5MSw0My4xODRsMzUuOTk2LDM5LjEyMWgtMzUuOTk2VjQzLjE4NHogTTM4NC45NzIsNDQxLjcyMyAgIGMwLDIuNTQyLTIuMDgxLDQuNjI5LTQuNjM1LDQuNjI5SDkwLjIzNGMtMi41NDcsMC00LjYxOS0yLjA4Ny00LjYxOS00LjYyOVYyOC44NTljMC0yLjU0OCwyLjA3Mi00LjYxMyw0LjYxOS00LjYxM2gyMTkuNDExdjcwLjE4MSAgIGMwLDYuNjgyLDUuNDQzLDEyLjA5OSwxMi4xMjksMTIuMDk5aDYzLjE5OFY0NDEuNzIzeiBNMTExLjU5MywzNTkuODcxaDIzNi4wNTJ2NDguNDIxSDExMS41OTNWMzU5Ljg3MXoiIGZpbGw9IiNGRkZGRkYiLz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K" /> Footer </a></li>
                               
-                                <li><a><i class="fa fa-wrench"></i> รายงาน <span class="fa fa-chevron-down"></span></a>
+                                
+
+
+<!--                              <li><a><i class="fa fa-wrench"></i> รายงาน <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu" style="display: none">
                                         <li><a href="<?= site_url('backoffice/admin/graph_circulation') ?>">กราฟแสดงยอดขาย</a></li>
                                         <li><a href="<?= site_url('backoffice/admin/graph_sal') ?>">กราฟเปรียบเทียบการเข้าชม:การซื้อสินค้า</a></li>
@@ -113,7 +158,7 @@
                                 <li><a href="<?= site_url('backoffice/admin/portfolio') ?>"><i class="fa fa-wrench"></i> ผลงาน </a></li>
                                 <li><a href="<?= site_url('backoffice/admin/bank') ?>"><i class="fa fa-wrench"></i> บัญชีธนาคาร </a></li>
 
-                                <li><a href="<?= site_url('backoffice/admin/member') ?>"><i class="fa fa-wrench"></i> สมาชิก </a></li>
+                                <li><a href="<?= site_url('backoffice/admin/member') ?>"><i class="fa fa-wrench"></i> สมาชิก </a></li>-->
                             </ul>
                         </div>
                     </div>
@@ -166,7 +211,7 @@
             </div>
             <!-- page content -->
             <div class="right_col" role="main">
-                <div class="page-title">
+                <div class="">
                     <?php echo $content; ?>
                 </div>
                 <!-- footer content -->
@@ -220,64 +265,64 @@
     <script type="text/javascript" src="<?php echo base_url() ?>assets/js/flot/curvedLines.js"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/js/flot/jquery.flot.resize.js"></script>
     <script>
-          $(document).ready(function () {
-              // [17, 74, 6, 39, 20, 85, 7]
-              //[82, 23, 66, 9, 99, 6, 2]
-              var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 1, 2), 74], [gd(2012, 1, 3), 6], [gd(2012, 1, 4), 39], [gd(2012, 1, 5), 20], [gd(2012, 1, 6), 85], [gd(2012, 1, 7), 7]];
+        $(document).ready(function () {
+            // [17, 74, 6, 39, 20, 85, 7]
+            //[82, 23, 66, 9, 99, 6, 2]
+            var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 1, 2), 74], [gd(2012, 1, 3), 6], [gd(2012, 1, 4), 39], [gd(2012, 1, 5), 20], [gd(2012, 1, 6), 85], [gd(2012, 1, 7), 7]];
 
-              var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 1, 2), 23], [gd(2012, 1, 3), 66], [gd(2012, 1, 4), 9], [gd(2012, 1, 5), 119], [gd(2012, 1, 6), 6], [gd(2012, 1, 7), 9]];
-              $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
-                  data1, data2
-              ], {
-                  series: {
-                      lines: {
-                          show: false,
-                          fill: true
-                      },
-                      splines: {
-                          show: true,
-                          tension: 0.4,
-                          lineWidth: 1,
-                          fill: 0.4
-                      },
-                      points: {
-                          radius: 0,
-                          show: true
-                      },
-                      shadowSize: 2
-                  },
-                  grid: {
-                      verticalLines: true,
-                      hoverable: true,
-                      clickable: true,
-                      tickColor: "#d5d5d5",
-                      borderWidth: 1,
-                      color: '#fff'
-                  },
-                  colors: ["rgba(38, 185, 154, 0.38)", "rgba(3, 88, 106, 0.38)"],
-                  xaxis: {
-                      tickColor: "rgba(51, 51, 51, 0.06)",
-                      mode: "time",
-                      tickSize: [1, "day"],
-                      //tickLength: 10,
-                      axisLabel: "Date",
-                      axisLabelUseCanvas: true,
-                      axisLabelFontSizePixels: 12,
-                      axisLabelFontFamily: 'Verdana, Arial',
-                      axisLabelPadding: 10
-                              //mode: "time", timeformat: "%m/%d/%y", minTickSize: [1, "day"]
-                  },
-                  yaxis: {
-                      ticks: 8,
-                      tickColor: "rgba(51, 51, 51, 0.06)",
-                  },
-                  tooltip: false
-              });
+            var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 1, 2), 23], [gd(2012, 1, 3), 66], [gd(2012, 1, 4), 9], [gd(2012, 1, 5), 119], [gd(2012, 1, 6), 6], [gd(2012, 1, 7), 9]];
+            $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
+                data1, data2
+            ], {
+                series: {
+                    lines: {
+                        show: false,
+                        fill: true
+                    },
+                    splines: {
+                        show: true,
+                        tension: 0.4,
+                        lineWidth: 1,
+                        fill: 0.4
+                    },
+                    points: {
+                        radius: 0,
+                        show: true
+                    },
+                    shadowSize: 2
+                },
+                grid: {
+                    verticalLines: true,
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#d5d5d5",
+                    borderWidth: 1,
+                    color: '#fff'
+                },
+                colors: ["rgba(38, 185, 154, 0.38)", "rgba(3, 88, 106, 0.38)"],
+                xaxis: {
+                    tickColor: "rgba(51, 51, 51, 0.06)",
+                    mode: "time",
+                    tickSize: [1, "day"],
+                    //tickLength: 10,
+                    axisLabel: "Date",
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Verdana, Arial',
+                    axisLabelPadding: 10
+                            //mode: "time", timeformat: "%m/%d/%y", minTickSize: [1, "day"]
+                },
+                yaxis: {
+                    ticks: 8,
+                    tickColor: "rgba(51, 51, 51, 0.06)",
+                },
+                tooltip: false
+            });
 
-              function gd(year, month, day) {
-                  return new Date(year, month - 1, day).getTime();
-              }
-          });
+            function gd(year, month, day) {
+                return new Date(year, month - 1, day).getTime();
+            }
+        });
     </script>
 
     <!--     worldmap 
@@ -307,20 +352,20 @@
     <!-- skycons -->
     <script src="<?php echo base_url() ?>assets/js/skycons/skycons.js"></script>
     <script>
-          var icons = new Skycons({
-              "color": "#73879C"
-          }),
-                  list = [
-                      "clear-day", "clear-night", "partly-cloudy-day",
-                      "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
-                      "fog"
-                  ],
-                  i;
+        var icons = new Skycons({
+            "color": "#73879C"
+        }),
+                list = [
+                    "clear-day", "clear-night", "partly-cloudy-day",
+                    "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
+                    "fog"
+                ],
+                i;
 
-          for (i = list.length; i--; )
-              icons.set(list[i], list[i]);
+        for (i = list.length; i--; )
+            icons.set(list[i], list[i]);
 
-          icons.play();
+        icons.play();
     </script>
 
     <!-- dashbord linegraph -->
@@ -437,8 +482,12 @@
                 return true;
             } else {
                 alert('กณุณากรอกรายละเอียด');
+               // tinyMCE.activeEditor.focus();
+               // tinyMCE.get('price_Detail1').focus();
                 return false;
             }
+
+//            }
         }
     </script>
 
